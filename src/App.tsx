@@ -9,10 +9,12 @@ import { Box, Button, createTheme, Dialog, LinearProgress, ThemeProvider, Typogr
 
 const App = () => {
 
+  // Theme customization 
   const theme = createTheme({
     defaultColorScheme: "light",
     palette: {
       primary: { main: "#ffc107" },
+      secondary: {main: "#f4f4f4"}
     },
     typography: {
       fontSize: 13,
@@ -20,17 +22,36 @@ const App = () => {
     }
   })
 
+  // current UI component 
   const [content, setContent] = useState<Content>()
+
+  // track visibility of the modal 
   const [open, setOpen] = useState(false)
+
+  // track the loading state for rendering the modal content 
   const [loading, setLoading] = useState(true)
+
+  // move to the new build confirmation screen 
+  const onOptionSelect=(key: string)=>{
+    console.log(key)
+    setContent(contents[1])
+  }
+
+  // move the first section of purchase estimates 
+  const newBuildAction=(response: "yes" | "no")=>{
+    console.log(response)
+    setContent(contents[2])
+  }
+
+  // UI components for the modal 
   const contents: Content[] = [
     {
       title: "landing",
-      body: <Landing />
+      body: <Landing onOptionSelect={onOptionSelect}/>
     },
     {
       title: "new build confirmation",
-      body: <NewBuildConfirmation />
+      body: <NewBuildConfirmation newBuildAction={newBuildAction}/>
     },
     {
       title: "purchase estimate 1",
@@ -44,6 +65,7 @@ const App = () => {
     }
   ]
 
+  // simulate delay and set the first UI component for the modal 
   useEffect(() => {
     setContent(contents[0])
     setTimeout(() => {
@@ -51,7 +73,7 @@ const App = () => {
     }, 3000);
   }, [])
 
-
+  
 
 
   return (
@@ -66,6 +88,8 @@ const App = () => {
           {
             loading
               ?
+
+              // loading state container 
               <Box  display={"flex"} flexDirection={"column"} padding={"20px 0px 0px 0px"} alignItems={"center"} justifyContent={"space-between"}>
                 <Typography variant="h4">Getting things ready</Typography>
                 <Typography variant="caption">please wait as we collect the neccessary resources...</Typography>
@@ -73,6 +97,8 @@ const App = () => {
                 <LinearProgress style={{ width: "100%" }} />
               </Box>
               :
+
+              // modal content 
               content?.body
           }
         </Dialog>
