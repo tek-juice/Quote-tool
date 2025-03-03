@@ -40,7 +40,9 @@ const App = () => {
 
   useEffect(() => {
     setContent(contents[1])
+    console.log(content)
   }, [])
+
 
   return (
     <ThemeProvider theme={theme}>
