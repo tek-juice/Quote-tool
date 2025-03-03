@@ -5,7 +5,8 @@ import NewBuildConfirmation from "./components/NewBuildConfirmation"
 import PurchaseEstimate1 from "./components/PurchaseEstimate1"
 import PurchaseEstimate2 from "./components/PurchaseEstimate2"
 import PurchaseEstimate3 from "./components/PurchaseEstimate3"
-import { Box, Button, createTheme, Dialog, LinearProgress, ThemeProvider, Typography } from "@mui/material"
+import { Box, Button, createTheme, Dialog, DialogContent, LinearProgress, ThemeProvider, Typography } from "@mui/material"
+import PurchaseEstimateLayout from "./components/PurchaseEstimateLayout"
 
 const App = () => {
 
@@ -14,7 +15,7 @@ const App = () => {
     defaultColorScheme: "light",
     palette: {
       primary: { main: "#ffc107" },
-      secondary: {main: "#f4f4f4"}
+      secondary: { main: "#f4f4f4" }
     },
     typography: {
       fontSize: 13,
@@ -32,38 +33,49 @@ const App = () => {
   const [loading, setLoading] = useState(true)
 
   // move to the new build confirmation screen 
-  const onOptionSelect=(key: string)=>{
+  const onOptionSelect = (key: string) => {
     console.log(key)
     setContent(contents[1])
   }
 
   // move the first section of purchase estimates 
-  const newBuildAction=(response: "yes" | "no")=>{
+  const newBuildAction = (response: "yes" | "no") => {
     console.log(response)
     setContent(contents[2])
   }
+
+  // track the current step for the purchase 
+  const [activeStep, setActiveStep] = useState(0)
+
+  // purchase steps 
+  const steps = [
+    'purchase details',
+    'About you',
+    'Cost Estimate',
+  ];
 
   // UI components for the modal 
   const contents: Content[] = [
     {
       title: "landing",
-      body: <Landing onOptionSelect={onOptionSelect}/>
+      body: <Landing onOptionSelect={onOptionSelect} />
     },
     {
       title: "new build confirmation",
-      body: <NewBuildConfirmation newBuildAction={newBuildAction}/>
+      body: <NewBuildConfirmation newBuildAction={newBuildAction} />
     },
     {
       title: "purchase estimate 1",
-      body: <PurchaseEstimate1 />
+      body: <PurchaseEstimateLayout steps={steps} activeStep={activeStep}><PurchaseEstimate1 /></PurchaseEstimateLayout>
     }, {
       title: "purchase estimate 2",
-      body: <PurchaseEstimate2 />
+      body: <PurchaseEstimateLayout steps={steps} activeStep={activeStep}><PurchaseEstimate2 /></PurchaseEstimateLayout>
     }, {
       title: "purchase estimate 3",
-      body: <PurchaseEstimate3 />
+      body: <PurchaseEstimateLayout steps={steps} activeStep={activeStep}><PurchaseEstimate3 /></PurchaseEstimateLayout>
     }
   ]
+
 
   // simulate delay and set the first UI component for the modal 
   useEffect(() => {
@@ -73,7 +85,7 @@ const App = () => {
     }, 3000);
   }, [])
 
-  
+
 
 
   return (
@@ -85,22 +97,24 @@ const App = () => {
 
         {/* modal for displaying the forms  */}
         <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
-          {
-            loading
-              ?
+          <DialogContent>
+            {
+              loading
+                ?
 
-              // loading state container 
-              <Box  display={"flex"} flexDirection={"column"} padding={"20px 0px 0px 0px"} alignItems={"center"} justifyContent={"space-between"}>
-                <Typography variant="h4">Getting things ready</Typography>
-                <Typography variant="caption">please wait as we collect the neccessary resources...</Typography>
-                <br />
-                <LinearProgress style={{ width: "100%" }} />
-              </Box>
-              :
+                // loading state container 
+                <Box display={"flex"} flexDirection={"column"} padding={"20px 0px 0px 0px"} alignItems={"center"} justifyContent={"space-between"}>
+                  <Typography variant="h4">Getting things ready</Typography>
+                  <Typography>please wait as we collect the neccessary resources...</Typography>
+                  <br />
+                  <LinearProgress style={{ width: "100%" }} />
+                </Box>
+                :
 
-              // modal content 
-              content?.body
-          }
+                // modal content 
+                content?.body
+            }
+          </DialogContent>
         </Dialog>
 
       </Box>

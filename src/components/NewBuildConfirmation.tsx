@@ -1,4 +1,4 @@
-import { Box, Button,Typography } from "@mui/material"
+import { Box, Button,DialogActions,Typography } from "@mui/material"
 import React from "react"
 
 export interface Props{
@@ -7,17 +7,19 @@ export interface Props{
 
 const NewBuildConfirmation:React.FC<Props> = ({newBuildAction}) => {
   return (
-    <Box sx={{p:3}}>
+    <Box >
 
       {/* intro section  */}
       <Typography variant="h4">Purchase estimate</Typography>
       <Typography>is the property a new build?</Typography>
 
       {/* actions  */}
+      <DialogActions>
       <Box sx={{mt:2}} display={"flex"} alignItems={"center"}>
       <Button onClick={()=>newBuildAction("yes")} disableElevation variant="contained">YES</Button>
       <Button onClick={()=>newBuildAction("no")} color={"secondary"} sx={{ml:1}} disableElevation variant="contained">NO</Button>
       </Box>
+      </DialogActions>
     </Box>
   )
 }
