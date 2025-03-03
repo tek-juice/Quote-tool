@@ -45,7 +45,8 @@ const App = () => {
   }
 
   // track the current step for the purchase 
-  const [activeStep, setActiveStep] = useState(0)
+  // const [activeStep, setActiveStep] = useState(0)
+  const activeStep = 0
 
   // purchase steps 
   const steps = [
