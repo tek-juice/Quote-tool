@@ -18,7 +18,7 @@ const App = () => {
       secondary: { main: "#f4f4f4" }
     },
     typography: {
-      fontSize: 13,
+      fontSize: 11.5,
       fontFamily: "poppins"
     }
   })
