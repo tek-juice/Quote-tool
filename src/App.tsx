@@ -67,10 +67,10 @@ const App = () => {
     },
     {
       title: "purchase estimate 1",
-      body: <PurchaseEstimateLayout steps={steps} activeStep={activeStep}><PurchaseEstimate1 /></PurchaseEstimateLayout>
+      body: <PurchaseEstimateLayout subtitle="Get a personalised estimate in just a few clicks" steps={steps} activeStep={activeStep}><PurchaseEstimate1 /></PurchaseEstimateLayout>
     }, {
       title: "purchase estimate 2",
-      body: <PurchaseEstimateLayout steps={steps} activeStep={activeStep}><PurchaseEstimate2 /></PurchaseEstimateLayout>
+      body: <PurchaseEstimateLayout subtitle="About you" steps={steps} activeStep={activeStep}><PurchaseEstimate2 /></PurchaseEstimateLayout>
     }, {
       title: "purchase estimate 3",
       body: <PurchaseEstimateLayout steps={steps} activeStep={activeStep}><PurchaseEstimate3 /></PurchaseEstimateLayout>

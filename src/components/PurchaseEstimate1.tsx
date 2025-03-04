@@ -13,7 +13,7 @@ const PurchaseEstimate1 = () => {
   }, [])
 
   return (
-    <Box sx={{ mt: 2 }}>
+    <Box>
       <Typography>Please complete the following information to obtain your instant estimate</Typography>
 
       {/* form  */}
@@ -42,7 +42,7 @@ const PurchaseEstimate1 = () => {
         {/* boolean questions  */}
         {
           questions?.map((question, index) => (
-            <BooleanQuestionComponent key={index} checked={question?.checked} label={question?.label} />
+            <BooleanQuestionComponent  key={index} question={question} questions={questions} setQuestions={setQuestions} />
           ))
         }
 
