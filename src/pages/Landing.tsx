@@ -25,8 +25,7 @@ const Landing = () => {
   const navigate = useNavigate()
 
   return (
-    <Box height={"100vh"} width={"100vw"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
-      <Box display={"flex"} style={{ padding: 20 }} flexWrap={"wrap"}>
+      <Box display={"flex"} sx={{background: colors?.grey[50], borderRadius: 3}} style={{ padding: 20 }} flexWrap={"wrap"}>
         {
           options?.map((option, index) => (
 
@@ -58,7 +57,6 @@ const Landing = () => {
           ))
         }
       </Box>
-    </Box>
   )
 }
 
