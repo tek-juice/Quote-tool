@@ -10,3 +10,18 @@ export interface BooleanQuestion{
   checked: boolean
   collapsed?: boolean
 }
+
+export interface Store{
+  data: State
+}
+
+export interface State{
+  activeStep: number
+  steps: string[]
+}
+
+export interface Option{
+  label: string 
+  title?: string 
+  route: string
+}

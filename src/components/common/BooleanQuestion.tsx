@@ -1,7 +1,7 @@
 import { Box, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material"
 import React from "react"
-import { BooleanQuestion } from "../types"
-import { updateBooleanQuestion } from "../services/booleanQuestionService"
+import { BooleanQuestion } from "../../types"
+import { updateBooleanQuestion } from "../../services/booleanQuestionService"
 
 export interface Props {
   questions: BooleanQuestion[],

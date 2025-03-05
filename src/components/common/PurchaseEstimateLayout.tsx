@@ -1,19 +1,22 @@
 import { Box, Step, StepLabel, Stepper, Typography } from "@mui/material"
 import { ReactNode } from "react"
+import { getActiveStep, getSteps } from "../../store/data"
+import { useSelector } from "react-redux"
 
 export interface Props {
   children: ReactNode
-  steps: string[],
-  activeStep: number
   subtitle?: string
 }
 
-const PurchaseEstimateLayout: React.FC<Props> = ({ children, activeStep, steps, subtitle }) => {
+const PurchaseEstimateLayout: React.FC<Props> = ({ children, subtitle }) => {
+
+  const steps = useSelector(getSteps)
+  const activeStep = useSelector(getActiveStep)
 
   return (
-    <Box>
+    <Box sx={{p:4}}>
       <Typography fontWeight={600} variant="h4" textAlign={"center"}>Purchase Estimate</Typography>
-      {subtitle && <Typography textAlign={"center"} sx={{mb:2}}>{subtitle}</Typography>}
+      {subtitle && <Typography textAlign={"center"} sx={{ mb: 2 }}>{subtitle}</Typography>}
       {/* stepper  */}
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
@@ -23,7 +26,7 @@ const PurchaseEstimateLayout: React.FC<Props> = ({ children, activeStep, steps, 
         ))}
         <br />
       </Stepper>
-      <Typography sx={{mt:3}} variant="h5">{steps[activeStep]}</Typography>
+      <Typography sx={{ mt: 3 }} variant="h5">{steps[activeStep]}</Typography>
       {children}
     </Box>
   )

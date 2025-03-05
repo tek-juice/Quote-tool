@@ -1,8 +1,9 @@
 import { Autocomplete, Box, Button, colors, DialogActions, TextField, Typography } from "@mui/material"
-import BooleanQuestionComponent from "./BooleanQuestion"
+import BooleanQuestionComponent from "../common/BooleanQuestion"
 import { useEffect, useState } from "react"
-import { BooleanQuestion } from "../types"
-import { booleanQuestions } from "../data"
+import { BooleanQuestion } from "../../types"
+import { booleanQuestions } from "../../data"
+import { useNavigate } from "react-router"
 
 const PurchaseEstimate1 = () => {
 
@@ -11,6 +12,8 @@ const PurchaseEstimate1 = () => {
   useEffect(() => {
     setQuestions(booleanQuestions)
   }, [])
+
+  const navigate = useNavigate()
 
   return (
     <Box>
@@ -48,7 +51,7 @@ const PurchaseEstimate1 = () => {
 
         {/* actions  */}
         <DialogActions>
-          <Button sx={{background: colors.grey[100]}} disableElevation variant="contained">
+          <Button onClick={()=>navigate("/")} sx={{background: colors.grey[100]}} disableElevation variant="contained">
             cancel
           </Button>
           <Button disableElevation variant="contained">

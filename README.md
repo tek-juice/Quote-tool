@@ -1,54 +1,75 @@
-# React + TypeScript + Vite
+# Quote Tool
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+The Quote Tool is a React-based web application designed to provide users with property-related quotes. It features a clean UI built with Material UI and manages application state using Redux.
 
-Currently, two official plugins are available:
+## Features
+- **User-friendly UI**: Built with Material UI for a responsive and modern design.
+- **State Management**: Uses Redux to manage global state efficiently.
+- **Quote Categories**: Allows users to get quotes for different property-related actions (Buying, Selling, Remortgaging, etc.).
+- **Reusable Components**: Modular design with reusable Material UI components.
+- **Fast and Efficient**: Optimized for performance with React best practices.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technologies Used
+- **React (TypeScript)**: Frontend library for building the UI.
+- **Redux**: State management.
+- **Material UI (MUI)**: UI component library for styling.
+- **React Router**: Handles navigation.
+- **Vite**: Build tool for fast development.
 
-## Expanding the ESLint configuration
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/tek-juice/Quote-tool.git
+   cd quote-tool
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Project Structure
+```
+quote-tool/
+│── node_modules/
+│── public/
+│── src/
+│   ├── assets/           # Static assets
+│   ├── components/       # Reusable UI components
+│   ├── data/             # Static or API data
+│   ├── pages/            # Page components
+│   ├── routes/           # Routing components
+│   ├── services/         # API and business logic
+│   ├── store/            # Redux store and slices
+│   ├── types/            # TypeScript types
+│   ├── App.tsx           # Main app component
+│   ├── index.css         # Global styles
+│   ├── main.tsx          # Application entry point
+│── .gitignore
+│── eslint.config.js
+│── index.html
+│── LICENSE
+│── package-lock.json
+│── package.json
+│── README.md
+│── tsconfig.app.json
+│── tsconfig.json
+│── tsconfig.node.json
+│── vite.config.ts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Usage
+- Click on one of the property options to get a quote.
+- The selected category will trigger an action handled by Redux.
+- The UI updates dynamically based on user interactions.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Contribution
+Feel free to contribute by forking the repo and submitting pull requests.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## License
+This project is licensed under the MIT License.
+
