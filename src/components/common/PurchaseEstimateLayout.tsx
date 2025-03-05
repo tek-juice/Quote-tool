@@ -1,4 +1,4 @@
-import { Box, Step, StepLabel, Stepper, Typography } from "@mui/material"
+import { Container, Step, StepLabel, Stepper, Typography } from "@mui/material"
 import { ReactNode } from "react"
 import { getActiveStep, getSteps } from "../../store/data"
 import { useSelector } from "react-redux"
@@ -14,7 +14,7 @@ const PurchaseEstimateLayout: React.FC<Props> = ({ children, subtitle }) => {
   const activeStep = useSelector(getActiveStep)
 
   return (
-    <Box sx={{p:4}}>
+    <Container maxWidth="sm" sx={{p:4}}>
       <Typography fontWeight={600} variant="h4" textAlign={"center"}>Purchase Estimate</Typography>
       {subtitle && <Typography textAlign={"center"} sx={{ mb: 2 }}>{subtitle}</Typography>}
       {/* stepper  */}
@@ -28,7 +28,7 @@ const PurchaseEstimateLayout: React.FC<Props> = ({ children, subtitle }) => {
       </Stepper>
       <Typography sx={{ mt: 3 }} variant="h5">{steps[activeStep]}</Typography>
       {children}
-    </Box>
+    </Container>
   )
 }
 
