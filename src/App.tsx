@@ -4,24 +4,24 @@ import { createTheme, ThemeProvider } from "@mui/material"
 
 const App = () => {
 
-  // Theme customization 
-  const theme = createTheme({
-    defaultColorScheme: "light",
-    palette: {
-      primary: { main: "#ffc107" },
-      secondary: { main: "#f4f4f4" }
-    },
-    typography: {
-      fontSize: 11.5,
-      fontFamily: "poppins"
-    }
-  })
+   // Theme customization 
+    const theme = createTheme({
+      defaultColorScheme: "light",
+      palette: {
+        primary: { main: "#ffc107" },
+        secondary: { main: "#f4f4f4" }
+      },
+      typography: {
+        fontSize: 11.5,
+        fontFamily: "poppins"
+      }
+    })
 
   return (
     <ThemeProvider theme={theme}>
-      <Routes>
-        <Route path="/*" Component={Index} />
-      </Routes>
+    <Routes>
+        <Route path="/*" Component={Index}/>
+    </Routes>
     </ThemeProvider>
   )
 }
