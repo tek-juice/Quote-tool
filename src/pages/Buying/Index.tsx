@@ -8,7 +8,7 @@ const Index = () => {
   console.log(confirmation)
 
   return (
-    <PurchaseEstimateLayout>
+    <PurchaseEstimateLayout subtitle="Get a personalised estimate in just a few clicks">
       <PurchaseEstimate1/>
     </PurchaseEstimateLayout>
   )

@@ -1,4 +1,4 @@
-import { Box, Button, colors,  Typography } from "@mui/material"
+import { Box, Button,Typography } from "@mui/material"
 import { useNavigate } from "react-router"
 
 
@@ -7,9 +7,10 @@ const NewBuildConfirmation = () => {
   const navigate = useNavigate()
 
   return (
-    <Box sx={{
-      background: colors.grey[50],
-      borderRadius: 3,
+    <Box 
+    className="shadow"
+    sx={{
+      borderRadius: 1,
     }} display={"flex"} alignItems={"center"} justifyContent={"center"}>
       <Box sx={{ px:5, py:3}}>
 
