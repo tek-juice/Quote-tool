@@ -25,3 +25,8 @@ export interface Option{
   title?: string 
   route: string
 }
+
+export interface Address{
+  name: string 
+  postalCode: string
+}
