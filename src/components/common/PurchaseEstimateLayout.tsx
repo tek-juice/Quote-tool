@@ -18,9 +18,9 @@ const PurchaseEstimateLayout: React.FC<Props> = ({ children, subtitle }) => {
       <Typography fontWeight={600} variant="h4" textAlign={"center"}>Purchase Estimate</Typography>
       {subtitle && <Typography textAlign={"center"} sx={{ mb: 2 }}>{subtitle}</Typography>}
       {/* stepper  */}
-      <Stepper color="red" activeStep={activeStep} alternativeLabel>
+      <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
-          <Step sx={{h:10}} key={label}>
+          <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>
         ))}

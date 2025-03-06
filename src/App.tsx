@@ -22,10 +22,7 @@ const App = () => {
               backgroundColor: "#f4f4f4", // Transparent background initially
               "&.Mui-selected": {
                 backgroundColor: "#ffc107", // Use the primary color for the fill (default button color)
-                color: "#fff", // Text color when selected (white)
-              },
-              "&:hover": {
-                color: "#333"
+                color: "#081025", // Text color when selected (white)
               },
             },
           },
