@@ -29,6 +29,11 @@ body{
     /* color: var(--dark); */
 }
 
+hr{
+    opacity: .4;
+    margin: 15px 0px;
+}
+
 .input{
     background: transparent;
 }
