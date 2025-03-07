@@ -21,6 +21,7 @@ const NewBuildConfirmation = () => {
         
           <Box sx={{ mt: 2}} display={"flex"} justifyContent={"center"} alignItems={"center"}>
             <Button onClick={()=>navigate("/buying/yes")} disableElevation variant="contained">YES</Button>
+            <Box sx={{mx:2}}/>
             <Button onClick={()=>navigate("/buying/no")} color={"secondary"} sx={{ ml: 1 }} disableElevation variant="contained">NO</Button>
           </Box>
       </Box>

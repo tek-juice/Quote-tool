@@ -27,7 +27,7 @@ const Landing = () => {
   const navigate = useNavigate()
 
   return (
-    <Box display={"flex"} className="shadow rounded" justifyContent={"space-between"} sx={{ px: 6, py: 12 }} flexWrap={"wrap"}>
+    <Box display={"flex"} className="bg-img rounded" justifyContent={"space-between"} sx={{ px: 6, py: 12 }} flexWrap={"wrap"}>
 
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>

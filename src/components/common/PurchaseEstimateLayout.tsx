@@ -26,7 +26,7 @@ const PurchaseEstimateLayout: React.FC<Props> = ({ children, subtitle }) => {
         ))}
         <br />
       </Stepper>
-      <Typography sx={{ mt: 3 }} variant="h5">{steps[activeStep]}</Typography>
+      <Typography sx={{ mt: 3 }}></Typography>
       {children}
     </Container>
   )

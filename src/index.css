@@ -50,6 +50,12 @@ hr{
     background-color: var(--primary);
 }
 
+.bg-img{
+    background: url(./assets/bg.svg);
+    background-position: center;
+    background-size: cover;
+}
+
 .border-primary{
     border: 1px solid var(--pale);
 }

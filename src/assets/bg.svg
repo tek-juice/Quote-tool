@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1065" height="725" viewBox="0 0 1065 725">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_1" data-name="Rectangle 1" width="168" height="326" transform="translate(0 -0.784)" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="bg-img" transform="translate(-428 -202)">
+    <g id="Rectangle_1-2" data-name="Rectangle 1" transform="translate(423.5 201.5)">
+      <rect id="Rectangle_2" data-name="Rectangle 2" width="1064" height="676" rx="8" transform="translate(5 1)" fill="#081025"/>
+      <rect id="Rectangle_3" data-name="Rectangle 3" width="1065" height="677" rx="8.5" transform="translate(4.5 0.5)" fill="none"/>
+    </g>
+    <g id="_61682244554f720963ba1407_cheveron-home_1" data-name="61682244554f720963ba1407_cheveron-home 1" transform="translate(428 601.784)" clip-path="url(#clip-path)">
+      <g id="Group_1" data-name="Group 1" transform="translate(-129.561 39.622)" opacity="0.47">
+        <path id="Path_1" data-name="Path 1" d="M46.137,249.573l36.82-33.581L29.036,122.574-12.677,152.1" transform="translate(126.965 -44.162)" fill="#ffd227"/>
+        <path id="Path_2" data-name="Path 2" d="M-107.537,109.647-62.2,82.138l110.659,38.97L6.749,150.625" transform="translate(107.537 -42.692)" fill="#d8b221"/>
+        <path id="Path_3" data-name="Path 3" d="M92.71,196.008l34.041-31.035L76.9,78.616,38.352,105.9" transform="translate(137.416 -42.564)" fill="#ffd227"/>
+        <path id="Path_4" data-name="Path 4" d="M-49.386,66.627-7.481,41.2,94.866,77.274,56.311,104.539" transform="translate(119.447 -41.203)" fill="#d8b221"/>
+        <path id="Path_5" data-name="Path 5" d="M-68.279,203.4l44.917-31.79L34.713,272.215-4.944,308.381" transform="translate(115.577 -45.946)" fill="#ffd227"/>
+      </g>
+    </g>
+  </g>
+</svg>

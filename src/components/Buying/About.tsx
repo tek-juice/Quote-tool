@@ -91,7 +91,7 @@ const About = () => {
             </Grid2>
             <Grid2 size={6} sx={{ justifyContent: "flex-end", display: "flex" }}>
               {index > 0 && (
-                <Button startIcon={<Delete />} onClick={() => removeClient(index)}>
+                <Button className="small" startIcon={<Delete />} onClick={() => removeClient(index)}>
                   Remove Client {index + 1}
                 </Button>
               )}
@@ -140,6 +140,7 @@ const About = () => {
         ))}
 
         <Button
+          className="small"
           endIcon={<Add />}
           onClick={(e) => {
             e.preventDefault()

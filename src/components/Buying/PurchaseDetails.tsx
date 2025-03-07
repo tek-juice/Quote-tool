@@ -168,17 +168,18 @@ const PurchaseDetails = () => {
           <Autocomplete
             fullWidth
             options={addresses}
-            getOptionLabel={(option) => option.name}
+            getOptionLabel={(option) => option.postalCode}
             value={purchaseAddress}
             onChange={(_, value) => {
               if (value) {
                 setPurchaseAddress(value); // Store selected address
               }
             }}
+            renderOption={(props, address)=><Typography {...props}>{address?.name}</Typography>} 
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Purchase address"
+                label="Postal Code"
                 error={!!errors.purchaseAddress}
                 helperText={errors.purchaseAddress}
                 required
