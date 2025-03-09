@@ -8,6 +8,7 @@ const App = () => {
   const theme = createTheme({
 
     components: {
+      
       MuiStepLabel: {
         styleOverrides: {
           label: {
@@ -139,8 +140,8 @@ const App = () => {
       secondary: { main: "#f4f4f4" }
     },
     typography: {
-      fontSize: 12,
-      fontFamily: "poppins",
+      fontSize: 12.5,
+      fontFamily: "Montserrat",
       allVariants: {
         color: "#081025"
       }

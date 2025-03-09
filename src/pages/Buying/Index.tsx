@@ -10,23 +10,27 @@ const Index = () => {
   const activeStep = useSelector(getActiveStep)
 
   return (
-    <PurchaseEstimateLayout subtitle="Get a personalised estimate in just a few clicks">
-      {
-        activeStep == 0
+
+    activeStep == 0
+      ?
+      <PurchaseEstimateLayout subtitle="Get a personalised estimate in just a few clicks">
+        <PurchaseDetails />
+      </PurchaseEstimateLayout>
+      :
+      activeStep == 1
+        ?
+        <PurchaseEstimateLayout subtitle="Get a personalised estimate in just a few clicks">
+          <About />
+        </PurchaseEstimateLayout>
+        :
+        activeStep == 2
           ?
-          <PurchaseDetails />
+          <PurchaseEstimateLayout no_steppers>
+            <CostEstimates />
+          </PurchaseEstimateLayout>
           :
-          activeStep == 1
-            ?
-            <About />
-            :
-            activeStep == 2
-              ?
-              <CostEstimates />
-              :
-              ""
-      }
-    </PurchaseEstimateLayout>
+          ""
+
   )
 }
 

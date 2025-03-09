@@ -1,6 +1,6 @@
 import { Box, Button, colors,Grid2, TextField, Typography, Checkbox, Dialog, DialogTitle, DialogContent, DialogActions as DialogActionsMui } from "@mui/material"
 import { useState } from "react"
-import { Add, Delete } from "@mui/icons-material"
+import { Add, AddCircleOutline, Delete, RemoveCircleOutline } from "@mui/icons-material"
 import { useDispatch } from "react-redux"
 import { updateActiveStep } from "../../store/data"
 
@@ -85,14 +85,20 @@ const About = () => {
       <form onSubmit={onSubmit}>
         {/* render client fields */}
         {clients?.map((client, index) => (
+          <>
+          {
+            index != 0 && <hr/>
+          }
           <Grid2 key={index} container spacing={2} sx={{ my: 2 }}>
             <Grid2 size={6}>
               {index != 0 && <Typography variant="h6">{`Client ${index + 1}`}</Typography>}
             </Grid2>
             <Grid2 size={6} sx={{ justifyContent: "flex-end", display: "flex" }}>
               {index > 0 && (
-                <Button className="small" startIcon={<Delete />} onClick={() => removeClient(index)}>
+                <Button className="small" endIcon={<RemoveCircleOutline />} onClick={() => removeClient(index)}>
+                  <Typography textTransform={"lowercase"}>
                   Remove Client {index + 1}
+                  </Typography>
                 </Button>
               )}
             </Grid2>
@@ -120,7 +126,8 @@ const About = () => {
               <TextField
                 fullWidth
                 value={client.email}
-                label="Email"
+                label="Email (optional)"
+                placeholder="(optional)"
                 onChange={(e) => updateClient(index, "email", e.target.value)}
                 error={!!errors[`email-${index}`]}
                 helperText={errors[`email-${index}`]}
@@ -130,18 +137,21 @@ const About = () => {
               <TextField
                 fullWidth
                 value={client.phoneNumber}
-                label="Phone number"
+                label="Phone number (optional)"
+                placeholder="(optional)"
                 onChange={(e) => updateClient(index, "phoneNumber", e.target.value)}
                 error={!!errors[`phoneNumber-${index}`]}
                 helperText={errors[`phoneNumber-${index}`]}
               />
             </Grid2>
           </Grid2>
+          
+          </>
         ))}
 
         <Button
           className="small"
-          endIcon={<Add />}
+          endIcon={<AddCircleOutline />}
           onClick={(e) => {
             e.preventDefault()
             addClient()
@@ -177,7 +187,7 @@ const About = () => {
             back
           </Button>
           <Button type="submit" disableElevation variant="contained">
-            next
+            get estimate
           </Button>
         </DialogActionsMui>
       </form>
@@ -191,7 +201,7 @@ const About = () => {
           </Typography>
         </DialogContent>
         <DialogActionsMui>
-          <Button onClick={handleCloseDialog} color="primary">
+          <Button className="small" onClick={handleCloseDialog} color="primary">
             Close
           </Button>
         </DialogActionsMui>

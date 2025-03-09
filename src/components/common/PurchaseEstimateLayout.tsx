@@ -6,26 +6,29 @@ import { useSelector } from "react-redux"
 export interface Props {
   children: ReactNode
   subtitle?: string
+  no_steppers?: boolean
 }
 
-const PurchaseEstimateLayout: React.FC<Props> = ({ children, subtitle }) => {
+const PurchaseEstimateLayout: React.FC<Props> = ({ children, subtitle, no_steppers }) => {
 
   const steps = useSelector(getSteps)
   const activeStep = useSelector(getActiveStep)
 
   return (
-    <Container maxWidth="sm" className="shadow"  sx={{p:4, overflow: "auto", height: "95vh"}}>
+    <Container maxWidth="sm" className="shadow" sx={{ p: 4, overflow: "auto", height: "95vh" }}>
       <Typography fontWeight={600} variant="h4" textAlign={"center"}>Purchase Estimate</Typography>
       {subtitle && <Typography textAlign={"center"} sx={{ mb: 2 }}>{subtitle}</Typography>}
       {/* stepper  */}
-      <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-        <br />
-      </Stepper>
+      {
+        !no_steppers &&
+        <Stepper activeStep={activeStep} alternativeLabel>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+          <br />
+        </Stepper>}
       <Typography sx={{ mt: 3 }}></Typography>
       {children}
     </Container>

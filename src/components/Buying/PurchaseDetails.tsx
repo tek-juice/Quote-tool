@@ -40,9 +40,18 @@ const PurchaseDetails = () => {
 
   // Handle change for number of buyers
   const handleNumberOfBuyersChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(event.target.value, 10);
+    let value = parseInt(event.target.value, 10);
+  
+    // Ensure the value is between 1 and 4
+    if (value < 1) {
+      value = 1;
+    } else if (value > 4) {
+      value = 4;
+    }
+  
     setNumberOfBuyers(value);
   };
+  
 
   // Handle change for tenure
   const handleTenureChange = (_: React.ChangeEvent<{}>, value: string | null) => {
@@ -125,7 +134,7 @@ const PurchaseDetails = () => {
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <span><CurrencyPound /></span> {/* Wrap in a span to avoid issues */}
+                    <span><Typography fontWeight={600}>£</Typography></span> {/* Wrap in a span to avoid issues */}
                   </InputAdornment>
                 ),
               },
