@@ -24,17 +24,18 @@ export interface Option {
   label: string
   title?: string
   route: string
+  icon?: unknown
 }
 
 
 export interface Address {
-  plotNumber: string
-  buildingName: string
-  buildingNumber: string
-  street: string
-  district: string
-  town: string
-  county: string
-  postcode: string
-  country: string
+  plotNumber?: string
+  buildingName?: string
+  buildingNumber?: string
+  street?: string
+  district?: string
+  town?: string
+  county?: string
+  postcode?: string
+  country?: string
 }

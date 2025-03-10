@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, colors, DialogActions, InputAdornment, TextField, Typography, Grid2 as Grid } from "@mui/material";
+import { Box, Button, colors, DialogActions, InputAdornment, TextField, Typography, Grid, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import BooleanQuestionComponent from "../common/BooleanQuestion";
 import { useEffect, useState } from "react";
 import { Address, BooleanQuestion } from "../../types";
@@ -11,17 +11,17 @@ import { updateActiveStep } from "../../store/data";
 import AddressLookup from "../common/AddressLookup";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import CurrencyPoundIcon from '@mui/icons-material/CurrencyPound';
+import HomeIcon from '@mui/icons-material/Home';
 
 const PurchaseDetails = () => {
   const [questions, setQuestions] = useState<BooleanQuestion[]>();
-  const [tenure, setTenure] = useState(""); // Default empty string
+  const [tenure, setTenure] = useState("");
   const [addresses, setAddresses] = useState<Address[]>([]);
-  const [purchaseAddress, setPurchaseAddress] = useState<Address | null>(null); // Address state can be null initially
+  const [purchaseAddress, setPurchaseAddress] = useState<Address | null>(null);
   const [numberOfBuyers, setNumberOfBuyers] = useState<number>(0);
-  const [numberValue, setNumberValue] = useState(""); // Purchase price raw value
-  const [displayValue, setDisplayValue] = useState(""); // Purchase price formatted value
-
-  // Validation states
+  const [numberValue, setNumberValue] = useState("");
+  const [displayValue, setDisplayValue] = useState("");
+  
   const [errors, setErrors] = useState({
     purchasePrice: "",
     numberOfBuyers: "",
@@ -30,84 +30,47 @@ const PurchaseDetails = () => {
   });
 
   const tenureOptions = ["Freehold", "Leasehold"];
-
   const dispatch = useDispatch();
 
-  // Handle user input for purchase price
   const handlePurchasePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = event.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-    setNumberValue(rawValue); // Store raw numeric value
-    setDisplayValue(formatCurrency(rawValue)); // Format for display
+    const rawValue = event.target.value.replace(/\D/g, "");
+    setNumberValue(rawValue);
+    setDisplayValue(formatCurrency(rawValue));
   };
 
-  // Handle change for number of buyers
   const handleNumberOfBuyersChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = parseInt(event.target.value, 10);
-
-    // Ensure the value is between 1 and 4
-    if (value < 1) {
-      value = 1;
-    } else if (value > 4) {
-      value = 4;
-    }
-
+    if (value < 1) value = 1;
+    else if (value > 4) value = 4;
     setNumberOfBuyers(value);
   };
 
-  // Handle change for tenure
-  const handleTenureChange = (_: React.ChangeEvent<{}>, value: string | null) => {
-    if (value) {
-      setTenure(value);
-    }
-  };
-
-  // Fetch example addresses for testing
   useEffect(() => {
     setQuestions(booleanQuestions);
     setAddresses(AddressesData);
+    console.log(addresses)
   }, []);
 
   const navigate = useNavigate();
 
-  // Validate form
   const validateForm = () => {
     const newErrors: any = {};
-
-    if (!displayValue) {
-      newErrors.purchasePrice = "Purchase price is required";
-    }
-
-    if (numberOfBuyers <= 0) {
-      newErrors.numberOfBuyers = "Number of buyers must be greater than 0";
-    }
-
-    if (!tenure) {
-      newErrors.tenure = "Tenure is required";
-    }
-
-    if (!purchaseAddress) {
-      newErrors.purchaseAddress = "Purchase address is required";
-    }
-
+    if (!displayValue) newErrors.purchasePrice = "Purchase price is required";
+    if (numberOfBuyers <= 0) newErrors.numberOfBuyers = "Number of buyers must be greater than 0";
+    if (!tenure) newErrors.tenure = "Tenure is required";
+    // if (!purchaseAddress) newErrors.purchaseAddress = "Purchase address is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const onSubmit = (event: React.FormEvent) => {
-    event.preventDefault(); // Prevent form submission
-
+    event.preventDefault();
     if (validateForm()) {
-      const formData = {
-        purchasePrice: numberValue,
-        numberOfBuyers,
-        tenure,
-        // purchaseAddress: purchaseAddress?.name,
-      };
+      const formData = { purchasePrice: numberValue, numberOfBuyers, tenure };
       const questionResponses = questions?.reduce<Record<string, boolean>>((acc, question) => {
         acc[question.label] = question.checked;
         return acc;
       }, {});
-
       console.log("Form Data:", formData);
       console.log("Question Responses:", questionResponses);
       dispatch(updateActiveStep(1));
@@ -119,92 +82,61 @@ const PurchaseDetails = () => {
   return (
     <Box>
       <Typography>Please complete the following information to obtain your instant estimate</Typography>
-
-      {/* form */}
       <form onSubmit={onSubmit}>
-        <Box display={"flex"} width={"100%"} sx={{ my: 3 }} justifyContent={"stretch"} alignItems={"center"}>
-          {/* purchase price */}
+        <Box display="flex" width="100%" sx={{ my: 3 }} justifyContent="stretch" alignItems="center">
           <TextField
-            className="input"
             value={displayValue}
             onChange={handlePurchasePriceChange}
             error={!!errors.purchasePrice}
             helperText={errors.purchasePrice}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <CurrencyPoundIcon />
-                  </InputAdornment>
-                ),
-              },
-            }}
+            InputProps={{ startAdornment: (<InputAdornment position="start"><CurrencyPoundIcon /></InputAdornment>) }}
             fullWidth label="Purchase price" required sx={{ mr: 2 }}
           />
-          {/* No. of buyers */}
           <TextField
-            slotProps={{
-              input: {
-                startAdornment: <InputAdornment position="start">
-                  <PeopleAltIcon />
-                </InputAdornment>
-              }
-            }}
             type="number"
             value={numberOfBuyers}
             onChange={handleNumberOfBuyersChange}
             error={!!errors.numberOfBuyers}
             helperText={errors.numberOfBuyers}
-            fullWidth
-            label="Number of buyers"
-            required
+            InputProps={{ startAdornment: (<InputAdornment position="start"><PeopleAltIcon /></InputAdornment>) }}
+            fullWidth label="Number of buyers" required
           />
         </Box>
 
         <Grid container>
-          <Grid size={6}>
-            {/* Tenure */}
+          <Grid item xs={6}>
             <Box sx={{ mr: 1 }}>
-              <Autocomplete
-                sx={{ mr: 2 }}
-                fullWidth
-                disablePortal
-                options={tenureOptions}
-                value={tenure}
-                onChange={handleTenureChange}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Tenure"
-                    error={!!errors.tenure}
-                    helperText={errors.tenure}
-                  />
-                )}
-              />
+              <FormControl fullWidth>
+                <InputLabel>Tenure</InputLabel>
+                <Select
+                label="Tenure"
+                  defaultValue={tenureOptions[0]}
+                  value={tenure}
+                  onChange={(e) => setTenure(e.target.value)}
+                  error={!!errors.tenure}
+                  startAdornment={<InputAdornment position="start"><HomeIcon /></InputAdornment>}
+                >
+                  {tenureOptions.map((option) => (
+                    <MenuItem key={option} value={option}>{option}</MenuItem>
+                  ))}
+                </Select>
+                {errors.tenure && <Typography color="error" variant="caption">{errors.tenure}</Typography>}
+              </FormControl>
             </Box>
           </Grid>
-          <Grid size={6}>
+          <Grid item xs={6}>
             <Box sx={{ ml: 1 }}>
-              <AddressLookup
-                address={purchaseAddress}
-                updateAddress={setPurchaseAddress} // Update address in the parent component
-              />
+              <AddressLookup address={purchaseAddress} updateAddress={setPurchaseAddress} />
             </Box>
           </Grid>
         </Grid>
 
         <hr style={{ marginBottom: 20, opacity: 0.3 }} />
         {questions?.map((question, index) => (
-          <BooleanQuestionComponent
-            key={index}
-            question={question}
-            questions={questions}
-            setQuestions={setQuestions}
-          />
+          <BooleanQuestionComponent key={index} question={question} questions={questions} setQuestions={setQuestions} />
         ))}
         <hr style={{ margin: "20px 0px", opacity: 0.3 }} />
 
-        {/* actions */}
         <DialogActions sx={{ justifyContent: "space-between" }}>
           <Button onClick={() => navigate("/")} sx={{ background: colors.grey[100] }} disableElevation variant="contained">
             cancel

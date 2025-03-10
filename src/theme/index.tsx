@@ -13,6 +13,13 @@ const colors = {
 
 const theme = createTheme({
   components: {
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          color: colors?.primaryColor, // Change all icons to red
+        },
+      },
+    },
     MuiStepLabel: {
       styleOverrides: {
         label: {

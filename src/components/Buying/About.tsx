@@ -1,6 +1,6 @@
 import { Box, Button, colors,Grid2, TextField, Typography, Checkbox, Dialog, DialogTitle, DialogContent, DialogActions as DialogActionsMui } from "@mui/material"
 import { useState } from "react"
-import { Add, AddCircleOutline, Delete, RemoveCircleOutline } from "@mui/icons-material"
+import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material"
 import { useDispatch } from "react-redux"
 import { updateActiveStep } from "../../store/data"
 

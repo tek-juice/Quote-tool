@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material'
-import { CurrencyPound } from "@mui/icons-material";
 import { formatCurrency } from '../../services/buyingService';
 
 export interface Props {
