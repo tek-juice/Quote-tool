@@ -27,6 +27,8 @@ const NewBuildConfirmation = () => {
 
         <Box sx={{ mt: 2 }} display={"flex"} justifyContent={"center"} alignItems={"center"}>
           <Button
+            className="primary-hover"
+
             onClick={() => navigate("/buying/yes")}
             color={hoveredButton === "yes" ? "primary" : "inherit"}
             disableElevation
@@ -38,6 +40,7 @@ const NewBuildConfirmation = () => {
           </Button>
           <Box sx={{ mx: 2 }} />
           <Button
+            className="primary-hover"
             onClick={() => navigate("/buying/no")}
             color={hoveredButton === "no" ? "primary" : "inherit"}
             sx={{ ml: 1 }}
