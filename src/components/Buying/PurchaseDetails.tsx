@@ -17,7 +17,7 @@ const PurchaseDetails = () => {
   const [questions, setQuestions] = useState<BooleanQuestion[]>();
   const [tenure, setTenure] = useState("");
   const [addresses, setAddresses] = useState<Address[]>([]);
-  const [purchaseAddress, setPurchaseAddress] = useState<Address | null>(null);
+  // const [purchaseAddress, setPurchaseAddress] = useState<Address | null>(null);
   const [numberOfBuyers, setNumberOfBuyers] = useState<number>(0);
   const [numberValue, setNumberValue] = useState("");
   const [displayValue, setDisplayValue] = useState("");
@@ -126,7 +126,7 @@ const PurchaseDetails = () => {
           </Grid>
           <Grid item xs={6}>
             <Box sx={{ ml: 1 }}>
-              <AddressLookup address={purchaseAddress} updateAddress={setPurchaseAddress} />
+              <AddressLookup/>
             </Box>
           </Grid>
         </Grid>
