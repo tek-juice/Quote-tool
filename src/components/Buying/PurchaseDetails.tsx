@@ -3,7 +3,6 @@ import BooleanQuestionComponent from "../common/BooleanQuestion";
 import { useEffect, useState } from "react";
 import { Address, BooleanQuestion } from "../../types";
 import { booleanQuestions } from "../../data";
-import { CurrencyPound } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { formatCurrency } from "../../services/buyingService";
 import { AddressesData } from "../../data/buying";
