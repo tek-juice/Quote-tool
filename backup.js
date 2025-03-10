@@ -9,8 +9,7 @@ import { AddressesData } from "../../data/buying";
 import { useDispatch } from "react-redux";
 import { updateActiveStep } from "../../store/data";
 import AddressLookup from "../common/AddressLookup";
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import CurrencyPoundIcon from '@mui/icons-material/CurrencyPound';
+import HouseIcon from '@mui/icons-material/House';
 
 const PurchaseDetails = () => {
   const [questions, setQuestions] = useState<BooleanQuestion[]>();
@@ -31,7 +30,7 @@ const PurchaseDetails = () => {
 
   const tenureOptions = ["Freehold", "Leasehold"];
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   // Handle user input for purchase price
   const handlePurchasePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +52,7 @@ const PurchaseDetails = () => {
 
     setNumberOfBuyers(value);
   };
+
 
   // Handle change for tenure
   const handleTenureChange = (_: React.ChangeEvent<{}>, value: string | null) => {
@@ -101,16 +101,17 @@ const PurchaseDetails = () => {
         purchasePrice: numberValue,
         numberOfBuyers,
         tenure,
-        // purchaseAddress: purchaseAddress?.name,
+        purchaseAddress: purchaseAddress?.name,
       };
       const questionResponses = questions?.reduce<Record<string, boolean>>((acc, question) => {
         acc[question.label] = question.checked;
         return acc;
       }, {});
 
+
       console.log("Form Data:", formData);
       console.log("Question Responses:", questionResponses);
-      dispatch(updateActiveStep(1));
+      dispatch(updateActiveStep(1))
     } else {
       console.log("Form has errors");
     }
@@ -134,7 +135,7 @@ const PurchaseDetails = () => {
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <CurrencyPoundIcon />
+                    <span><Typography fontWeight={600}>£</Typography></span> {/* Wrap in a span to avoid issues */}
                   </InputAdornment>
                 ),
               },
@@ -143,13 +144,7 @@ const PurchaseDetails = () => {
           />
           {/* No. of buyers */}
           <TextField
-            slotProps={{
-              input: {
-                startAdornment: <InputAdornment position="start">
-                  <PeopleAltIcon />
-                </InputAdornment>
-              }
-            }}
+
             type="number"
             value={numberOfBuyers}
             onChange={handleNumberOfBuyersChange}
@@ -163,34 +158,27 @@ const PurchaseDetails = () => {
 
         <Grid container>
           <Grid size={6}>
-            {/* Tenure */}
+            {/* No. of buyers */}
             <Box sx={{ mr: 1 }}>
-              <Autocomplete
-                sx={{ mr: 2 }}
+              <TextField
+                type="number"
+                value={numberOfBuyers}
+                onChange={handleNumberOfBuyersChange}
+                error={!!errors.numberOfBuyers}
+                helperText={errors.numberOfBuyers}
                 fullWidth
-                disablePortal
-                options={tenureOptions}
-                value={tenure}
-                onChange={handleTenureChange}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Tenure"
-                    error={!!errors.tenure}
-                    helperText={errors.tenure}
-                  />
-                )}
+                label="Number of buyers"
+                required
               />
             </Box>
           </Grid>
           <Grid size={6}>
             <Box sx={{ ml: 1 }}>
-              <AddressLookup
-                address={purchaseAddress}
-                updateAddress={setPurchaseAddress} // Update address in the parent component
-              />
+              <AddressLookup />
             </Box>
+
           </Grid>
+
         </Grid>
 
         <hr style={{ marginBottom: 20, opacity: 0.3 }} />
