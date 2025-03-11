@@ -82,3 +82,7 @@ hr{
 .border-primary:hover{
     border-color: var(--primary);
 }
+
+.text-light{
+    color: var(--pale);
+}

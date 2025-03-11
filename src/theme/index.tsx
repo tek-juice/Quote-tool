@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material";
 
 // Define common values to avoid duplication
-const colors = {
+export const colors = {
   gray: "#D0D2D7",
   primaryColor: "#081025",
   hoverColor: "#ffc107", // For hover on 'primary-hover' class

@@ -41,3 +41,12 @@ export interface Address {
   postcode?: string
   country?: string
 }
+
+export interface Estimate{
+  fee_type: "legal" | "additional" | "disbursements"
+  label: string 
+  amount: number 
+  vat: number 
+  total: number 
+}
+

@@ -1,6 +1,7 @@
 import { Box } from "@mui/material"
 
 import EstimateHeader from "./EstimateHeader"
+import EstimateTable from "./EstimateTable"
 
 const CostEstimate = () => {
   return (
@@ -13,6 +14,8 @@ const CostEstimate = () => {
         purchase_price={10000}
         reference_number={678370}
       />
+      <br />
+      <EstimateTable/>
     </Box>
   )
 }

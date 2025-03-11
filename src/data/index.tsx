@@ -1,4 +1,4 @@
-import { BooleanQuestion } from "../types";
+import { BooleanQuestion, Estimate } from "../types";
 
 export const booleanQuestions: BooleanQuestion[] = [
     {
@@ -71,4 +71,85 @@ export const booleanQuestions: BooleanQuestion[] = [
         hidden: false,
         label: "Do you have a gifted deposit?"
     },
+]
+
+export const estimatesData: Estimate[] = [
+    {
+        amount: 550,
+        fee_type: "legal",
+        label: "(Residential Transaction)s",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "additional",
+        label: "New Build",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "additional",
+        label: "Bank Transfer fee",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "additional",
+        label: "Online Tracking System",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "additional",
+        label: "Excess Disbursement",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "additional",
+        label: "AML ID CHECK",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "additional",
+        label: "SDLT admin Fee",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "disbursements",
+        label: "Lawyer Checker",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "disbursements",
+        label: "Postage Fee",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "disbursements",
+        label: "Bankruptcy Search",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "disbursements",
+        label: "Pre-Completion OS1 Search",
+        total: 660,
+        vat: 110
+    },
+
 ]
