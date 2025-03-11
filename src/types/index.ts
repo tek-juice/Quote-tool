@@ -8,7 +8,9 @@ export interface Content {
 export interface BooleanQuestion {
   label: string
   checked: boolean
-  collapsed?: boolean
+  hidden?: boolean
+  id: number 
+  amount: number
 }
 
 export interface Store {

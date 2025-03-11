@@ -49,6 +49,7 @@ const PurchaseDetails = () => {
     setQuestions(booleanQuestions);
     setAddresses(AddressesData);
     console.log(addresses)
+    setTenure(tenureOptions[0])
   }, []);
 
   const navigate = useNavigate();
@@ -89,6 +90,7 @@ const PurchaseDetails = () => {
             onChange={handlePurchasePriceChange}
             error={!!errors.purchasePrice}
             helperText={errors.purchasePrice}
+            placeholder="purchase price"
             InputProps={{ startAdornment: (<InputAdornment position="start"><CurrencyPoundIcon /></InputAdornment>) }}
             fullWidth label="Purchase price" required sx={{ mr: 2 }}
           />

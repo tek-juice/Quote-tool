@@ -10,7 +10,11 @@ export interface Props {
 }
 
 const BooleanQuestionComponent: React.FC<Props> = ({ question, questions, setQuestions }) => {
+
+  
   return (
+    !question?.hidden
+    &&
     <Box display={"flex"} alignItems={"center"} sx={{ mb: 1 }}>
 
       {/* toggler  */}
