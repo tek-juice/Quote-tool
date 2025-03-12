@@ -1,4 +1,4 @@
-import { Address } from "../types";
+import { Address, PurchaseDetails } from "../types";
 
 export const AddressesData: Address[] = [
     {
@@ -288,3 +288,10 @@ export const AddressesData: Address[] = [
         country: "UK"
     },
 ];
+
+export const purchaseDetailsData: PurchaseDetails ={ 
+    purchasePrice: 1000000,
+    numberofbuyers: 1,
+    address: "London",
+    tenure: "freehold"
+}

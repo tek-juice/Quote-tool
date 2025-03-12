@@ -7,16 +7,17 @@ export interface Props {
   children: ReactNode
   subtitle?: string
   no_steppers?: boolean
+  title?: string
 }
 
-const PurchaseEstimateLayout: React.FC<Props> = ({ children, subtitle, no_steppers }) => {
+const PurchaseEstimateLayout: React.FC<Props> = ({ children, subtitle, no_steppers , title}) => {
 
   const steps = useSelector(getSteps)
   const activeStep = useSelector(getActiveStep)
 
   return (
     <Container maxWidth="sm" className="shadow" sx={{ p: 4, overflow: "auto", height: "95vh" }}>
-      <Typography fontWeight={600} variant="h4" textAlign={"center"}>Purchase Estimate</Typography>
+      <Typography fontWeight={600} variant="h4" textAlign={"center"}>{ title ? title : "Purchase Estimate"}</Typography>
       {subtitle && <Typography textAlign={"center"} sx={{ mb: 2 }}>{subtitle}</Typography>}
       {/* stepper  */}
       {

@@ -50,3 +50,10 @@ export interface Estimate{
   total: number 
 }
 
+export interface PurchaseDetails {
+  purchasePrice: number
+  numberofbuyers: number
+  tenure: "freehold" | "leasehold"
+  address: string
+}
+

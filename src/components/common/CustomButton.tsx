@@ -1,16 +1,19 @@
 import { Typography } from "@mui/material"
 import { colors } from "../../theme"
+import React from "react"
 
 export interface Props {
   title: string
   action?: () => void
   fullWidth?: boolean
   styles?: React.CSSProperties
+  type?: string
 }
 
-const CustomButton: React.FC<Props> = ({ title, action, fullWidth, styles }) => {
+const CustomButton: React.FC<Props> = ({ title, action, fullWidth, styles, type }) => {
   return (
     <button
+      type={type ? "submit" : "button"}
       onClick={action}
       style={{
         cursor: "pointer",

@@ -4,6 +4,7 @@ import PurchaseEstimateLayout from "../../components/common/PurchaseEstimateLayo
 import { getActiveStep } from "../../store/data"
 import About from "../../components/Buying/About"
 import CostEstimates from "../../components/Buying/CostEstimates"
+import Confirmation from "../../components/Buying/confirmation"
 
 const Index = () => {
 
@@ -29,6 +30,13 @@ const Index = () => {
             <CostEstimates />
           </PurchaseEstimateLayout>
           :
+          activeStep == 3
+            ?
+          <PurchaseEstimateLayout title="Confirm Purchase Estimate Details" no_steppers>
+            <Confirmation/>
+          </PurchaseEstimateLayout>
+
+            :
           ""
 
   )
