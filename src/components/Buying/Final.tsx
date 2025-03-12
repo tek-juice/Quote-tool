@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 const NewBuildConfirmation = () => {
 
-  const [submitting, setSubmitting] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(()=>{
     if(submitting){

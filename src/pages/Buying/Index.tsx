@@ -7,6 +7,7 @@ import CostEstimates from "../../components/Buying/CostEstimates"
 import Confirmation from "../../components/Buying/Confirmation"
 import Final from "../../components/Buying/Final"
 import CancelEstimation from "../../components/Buying/CancelEstimation"
+import SendEmail from "../../components/Buying/SendEmail"
 
 const Index = () => {
 
@@ -46,6 +47,10 @@ const Index = () => {
             activeStep == -1
             ?
             <CancelEstimation/>
+            :
+            activeStep == -2
+            ?
+            <SendEmail/>
             :
           ""
 
