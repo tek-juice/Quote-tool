@@ -4,7 +4,7 @@ import PurchaseEstimateLayout from "../../components/common/PurchaseEstimateLayo
 import { getActiveStep } from "../../store/data"
 import About from "../../components/Buying/About"
 import CostEstimates from "../../components/Buying/CostEstimates"
-import Confirmation from "../../components/Buying/confirmation"
+import Confirmation from "../../components/Buying/Confirmation"
 
 const Index = () => {
 
