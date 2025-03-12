@@ -4,7 +4,7 @@ import { State, Store } from "../types";
 const initialState: State = {
 
     // stepper  data
-    activeStep: 3,
+    activeStep: 4,
     steps: [
         'purchase details',
         'About you',

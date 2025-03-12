@@ -5,6 +5,7 @@ import { getActiveStep } from "../../store/data"
 import About from "../../components/Buying/About"
 import CostEstimates from "../../components/Buying/CostEstimates"
 import Confirmation from "../../components/Buying/Confirmation"
+import Final from "../../components/Buying/Final"
 
 const Index = () => {
 
@@ -36,6 +37,10 @@ const Index = () => {
             <Confirmation/>
           </PurchaseEstimateLayout>
 
+            :
+            activeStep == 4
+            ?
+              <Final/>
             :
           ""
 
