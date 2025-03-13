@@ -1,21 +1,21 @@
 import { Box, Button, InputAdornment, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState, useImperativeHandle, forwardRef } from 'react';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Address } from '../../types';
-import {AddressesData} from "../../data/buying"
+import { AddressesData } from "../../data/buying";
 
 export interface Props {
   address: Address | null;
-  updateAddress: (address: Address | null) => void;
+  setAddress: (address: Address | null) => void;
+  validateAddress: () => boolean;
+  ref?: React.Ref<{ validateManualAddress: () => boolean }>;
+
 }
 
-const AddressLookup = (
-  // props: Props
-) => {
-  // const { address, updateAddress } = props;
-  // const [addresses, setAddresses] = useState<Address[]>([])
-  const [postCode, setPostCode] = useState("")
+const AddressLookup: React.FC<Props> = forwardRef(({ address, setAddress }, ref) => {
+  const [postCode, setPostCode] = useState("");
   const [useManualAddress, setUseManualAddress] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   // local address state for manual entry
   const [manualAddress, setManualAddress] = useState<Address>({
@@ -39,18 +39,51 @@ const AddressLookup = (
   };
 
   const handlePostcodeLookup = () => {
-    // Handle postcode lookup logic here if needed
-    const addr = AddressesData?.find((addr)=>addr?.postcode == postCode)
-    if(!addr){
-      alert("no results found")
-    }else{
-      setUseManualAddress(true)
-      setManualAddress(addr)
+    const addr = AddressesData?.find((addr) => addr?.postcode === postCode);
+    if (!addr) {
+      setErrors((prev) => ({ ...prev, postCode: "No results found" }));
+    } else {
+      setUseManualAddress(true);
+      setManualAddress(addr);
+      setErrors({});
     }
   };
 
+  const validateManualAddress = () => {
+    if(!useManualAddress){
+      setUseManualAddress(true);
+    }
+    const newErrors: { [key: string]: string } = {};
+    if (!manualAddress.plotNumber) newErrors.plotNumber = "Plot Number is required";
+    if (!manualAddress.buildingName) newErrors.buildingName = "Building Name is required";
+    if (!manualAddress.buildingNumber) newErrors.buildingNumber = "Building Number is required";
+    if (!manualAddress.street) newErrors.street = "Street is required";
+    if (!manualAddress.district) newErrors.district = "District is required";
+    if (!manualAddress.town) newErrors.town = "Town is required";
+    if (!manualAddress.county) newErrors.county = "County is required";
+    if (!manualAddress.postcode) newErrors.postcode = "PostCode is required";
+    if (!manualAddress.country) newErrors.country = "Country is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  useImperativeHandle(ref, () => ({
+    validateManualAddress,
+  }));
+
+  useEffect(() => {
+    setAddress(manualAddress);
+  }, [manualAddress]);
+
+  useLayoutEffect(() => {
+    address && setManualAddress(address);
+    address?.plotNumber && setUseManualAddress(true);
+  }, [address]);
+
+
+
   return (
-    <Box>
+    <Box ref={ref}>
       {useManualAddress ? (
         <>
           <TextField
@@ -66,6 +99,8 @@ const AddressLookup = (
             }}
             fullWidth
             label="Plot Number"
+            error={!!errors.plotNumber}
+            helperText={errors.plotNumber}
           />
           <TextField
             name="buildingName"
@@ -74,6 +109,8 @@ const AddressLookup = (
             fullWidth
             sx={{ my: 3 }}
             label="Building Name"
+            error={!!errors.buildingName}
+            helperText={errors.buildingName}
           />
           <TextField
             name="buildingNumber"
@@ -81,6 +118,8 @@ const AddressLookup = (
             onChange={handleAddressChange}
             fullWidth
             label="Building Number"
+            error={!!errors.buildingNumber}
+            helperText={errors.buildingNumber}
           />
           <TextField
             name="street"
@@ -89,6 +128,8 @@ const AddressLookup = (
             fullWidth
             sx={{ my: 3 }}
             label="Street"
+            error={!!errors.street}
+            helperText={errors.street}
           />
           <TextField
             name="district"
@@ -96,6 +137,8 @@ const AddressLookup = (
             onChange={handleAddressChange}
             fullWidth
             label="District"
+            error={!!errors.district}
+            helperText={errors.district}
           />
           <TextField
             name="town"
@@ -104,6 +147,8 @@ const AddressLookup = (
             fullWidth
             sx={{ my: 3 }}
             label="Town"
+            error={!!errors.town}
+            helperText={errors.town}
           />
           <TextField
             name="county"
@@ -111,6 +156,8 @@ const AddressLookup = (
             onChange={handleAddressChange}
             fullWidth
             label="County"
+            error={!!errors.county}
+            helperText={errors.county}
           />
           <TextField
             name="postcode"
@@ -119,6 +166,8 @@ const AddressLookup = (
             fullWidth
             sx={{ my: 3 }}
             label="PostCode"
+            error={!!errors.postcode}
+            helperText={errors.postcode}
           />
           <TextField
             name="country"
@@ -126,6 +175,8 @@ const AddressLookup = (
             onChange={handleAddressChange}
             fullWidth
             label="Country"
+            error={!!errors.country}
+            helperText={errors.country}
           />
           <Button onClick={() => setUseManualAddress(false)} className="small">
             Use postcode finder
@@ -136,7 +187,7 @@ const AddressLookup = (
           <TextField
             label="Post code"
             value={postCode}
-            onChange={(e)=>setPostCode(e.target.value)}
+            onChange={(e) => setPostCode(e.target.value?.toUpperCase())}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -152,6 +203,8 @@ const AddressLookup = (
               ),
             }}
             fullWidth
+            error={!!errors.postCode}
+            helperText={errors.postCode}
           />
           <Button onClick={() => setUseManualAddress(true)} className="small">
             Enter address manually
@@ -160,6 +213,6 @@ const AddressLookup = (
       )}
     </Box>
   );
-};
+});
 
 export default AddressLookup;

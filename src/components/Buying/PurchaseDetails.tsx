@@ -1,27 +1,25 @@
 import { Box, Button, colors, DialogActions, InputAdornment, TextField, Typography, Grid, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from "@mui/material";
 import BooleanQuestionComponent from "../common/BooleanQuestion";
-import { useEffect, useState } from "react";
-import { Address, BooleanQuestion } from "../../types";
+import { useEffect, useState, useRef } from "react";
+import { Address, BooleanQuestion, PurchaseDetails } from "../../types";
 import { booleanQuestions } from "../../data";
 import { useNavigate } from "react-router";
 import { formatCurrency } from "../../services/buyingService";
-import { AddressesData } from "../../data/buying";
-import { useDispatch } from "react-redux";
-import { updateActiveStep } from "../../store/data";
+import { useDispatch, useSelector } from "react-redux";
+import { getPurchaseDetails, setPurchaseDetails, updateActiveStep } from "../../store/data";
 import AddressLookup from "../common/AddressLookup";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import CurrencyPoundIcon from '@mui/icons-material/CurrencyPound';
 import HomeIcon from '@mui/icons-material/Home';
 
-const PurchaseDetails = () => {
+const PurchaseDetailsComponent = () => {
   const [questions, setQuestions] = useState<BooleanQuestion[]>();
   const [tenure, setTenure] = useState("");
-  const [addresses, setAddresses] = useState<Address[]>([]);
-  // const [purchaseAddress, setPurchaseAddress] = useState<Address | null>(null);
+  const [purchaseAddress, setPurchaseAddress] = useState<Address | null>(null);
   const [numberOfBuyers, setNumberOfBuyers] = useState<number>(0);
   const [numberValue, setNumberValue] = useState("");
   const [displayValue, setDisplayValue] = useState("");
-  
+
   const [errors, setErrors] = useState({
     purchasePrice: "",
     numberOfBuyers: "",
@@ -29,8 +27,9 @@ const PurchaseDetails = () => {
     purchaseAddress: "",
   });
 
-  const tenureOptions = ["Freehold", "Leasehold"];
+  const tenureOptions = ["freehold", "leasehold"];
   const dispatch = useDispatch();
+  const addressLookupRef = useRef<{ validateManualAddress: () => boolean }>(null);
 
   const handlePurchasePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = event.target.value.replace(/\D/g, "");
@@ -48,26 +47,13 @@ const PurchaseDetails = () => {
   const handleTenureChange = (event: SelectChangeEvent<string>) => {
     const selectedTenure = event.target.value as string;
     setTenure(selectedTenure);
-  
+
     setQuestions((prevQuestions) =>
       prevQuestions?.map((question) =>
-        question.id === 11 ? { ...question, hidden: selectedTenure != "Leasehold" } : question
+        question.id === 11 ? { ...question, hidden: selectedTenure !== "Leasehold" } : question
       )
     );
   };
-
-  useEffect(() => {
-    setQuestions(booleanQuestions);
-    setAddresses(AddressesData);
-    console.log(addresses);
-    setTenure(tenureOptions[0]);
-  
-    setQuestions((prevQuestions) =>
-      prevQuestions?.map((question) =>
-        question.id === 11 ? { ...question, hidden: tenureOptions[0] != "Leasehold" } : question
-      )
-    );
-  }, []);
 
   const navigate = useNavigate();
 
@@ -76,26 +62,54 @@ const PurchaseDetails = () => {
     if (!displayValue) newErrors.purchasePrice = "Purchase price is required";
     if (numberOfBuyers <= 0) newErrors.numberOfBuyers = "Number of buyers must be greater than 0";
     if (!tenure) newErrors.tenure = "Tenure is required";
-    // if (!purchaseAddress) newErrors.purchaseAddress = "Purchase address is required";
+    if (!purchaseAddress) newErrors.purchaseAddress = "Purchase address is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (validateForm()) {
-      const formData = { purchasePrice: numberValue, numberOfBuyers, tenure };
-      const questionResponses = questions?.reduce<Record<string, boolean>>((acc, question) => {
-        acc[question.label] = question.checked;
-        return acc;
-      }, {});
-      console.log("Form Data:", formData);
-      console.log("Question Responses:", questionResponses);
+    const isAddressValid = addressLookupRef.current?.validateManualAddress();
+    if (validateForm() && isAddressValid) {
+      const purchaseDetails: PurchaseDetails = {
+        price: +numberValue,
+        people: numberOfBuyers,
+        tenure: tenure === "freehold" ? "freehold" : "leasehold",
+        address: purchaseAddress ?? {},
+        questions: questions ?? [],
+      };
+      dispatch(setPurchaseDetails(purchaseDetails));
       dispatch(updateActiveStep(1));
     } else {
       console.log("Form has errors");
     }
   };
+
+
+  const savedPurchaseDetails: PurchaseDetails | null = useSelector(getPurchaseDetails) as PurchaseDetails | null;
+
+  const initializeState = () => {
+    if (savedPurchaseDetails?.price) {
+      setNumberValue(savedPurchaseDetails.price.toString());
+      setDisplayValue(formatCurrency(savedPurchaseDetails.price.toString()));
+      setNumberOfBuyers(savedPurchaseDetails.people);
+      setTenure(savedPurchaseDetails.tenure);
+      setPurchaseAddress(savedPurchaseDetails.address);
+      setQuestions(savedPurchaseDetails.questions);
+    } else {
+      setQuestions(booleanQuestions);
+      setTenure(tenureOptions[0]);
+      setQuestions((prevQuestions) =>
+        prevQuestions?.map((question) =>
+          question.id === 11 ? { ...question, hidden: tenureOptions[0] != "leasehold" } : question
+        )
+      );
+    }
+  };
+  
+  useEffect(() => {
+    initializeState();
+  }, [savedPurchaseDetails]);
 
   return (
     <Box>
@@ -107,7 +121,7 @@ const PurchaseDetails = () => {
             onChange={handlePurchasePriceChange}
             error={!!errors.purchasePrice}
             helperText={errors.purchasePrice}
-            placeholder="purchase price"
+            placeholder="Purchase price"
             InputProps={{ startAdornment: (<InputAdornment position="start"><CurrencyPoundIcon /></InputAdornment>) }}
             fullWidth label="Purchase price" required sx={{ mr: 2 }}
           />
@@ -145,7 +159,7 @@ const PurchaseDetails = () => {
           </Grid>
           <Grid item xs={6}>
             <Box sx={{ ml: 1 }}>
-              <AddressLookup/>
+              <AddressLookup ref={addressLookupRef} address={purchaseAddress} setAddress={setPurchaseAddress} validateAddress={() => true} />
             </Box>
           </Grid>
         </Grid>
@@ -169,4 +183,4 @@ const PurchaseDetails = () => {
   );
 };
 
-export default PurchaseDetails;
+export default PurchaseDetailsComponent;

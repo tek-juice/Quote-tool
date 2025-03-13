@@ -20,6 +20,8 @@ export interface Store {
 export interface State {
   activeStep: number
   steps: string[]
+  purchaseDetails?: PurchaseDetails | {}
+  clients?: Client[] | []
 }
 
 export interface Option {
@@ -51,9 +53,23 @@ export interface Estimate{
 }
 
 export interface PurchaseDetails {
-  purchasePrice: number
-  numberofbuyers: number
+  price: number
+  people: number
   tenure: "freehold" | "leasehold"
-  address: string
+  address: Address
+  questions: BooleanQuestion[]
 }
 
+
+
+export interface Client {
+  firstName: string
+  lastName: string
+  companyName?: string
+  email: string
+  phone: string
+  NINO?: string
+  dateOfBirth?: string
+  isSpouseOrPartner?: boolean
+  address?: Address
+}

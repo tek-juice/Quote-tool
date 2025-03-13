@@ -1,9 +1,12 @@
 import { Box, Typography, CircularProgress, Button } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateActiveStep } from "../../store/data";
 
 const NewBuildConfirmation = () => {
 
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(true);
+  const dispatch = useDispatch()
 
   useEffect(()=>{
     if(submitting){
@@ -40,7 +43,7 @@ const NewBuildConfirmation = () => {
           <>
           <Typography variant="h4">Thank You</Typography>
           <Typography sx={{my:2}} flexWrap={"wrap"}>A member of our team will be in touch with you shortly so we <br /> can assist you with your forthcoming transaction</Typography>
-          <Button disableElevation className="small" variant="contained" sx={{py:2}} onClick={() => setSubmitting(true)}>
+          <Button disableElevation className="small" variant="contained" sx={{py:2}} onClick={() =>dispatch(updateActiveStep(2))}>
             <Typography textTransform={"lowercase"}>Back to estimate</Typography>
           </Button>
           </>

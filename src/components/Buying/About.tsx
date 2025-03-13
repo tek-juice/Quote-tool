@@ -1,19 +1,13 @@
-import { Box, Button, Grid2, TextField, Typography, Checkbox, Dialog, DialogTitle, DialogContent, DialogActions as DialogActionsMui, colors } from "@mui/material"
-import { useState } from "react"
-import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material"
-import { useDispatch } from "react-redux"
-import { updateActiveStep } from "../../store/data"
-
-interface Client {
-  firstName: string
-  lastName: string
-  email?: string
-  phoneNumber?: string
-  isSpouseOrPartner?: boolean
-}
+import { Box, Button, Grid2, TextField, Typography, Checkbox, Dialog, DialogTitle, DialogContent, DialogActions as DialogActionsMui, colors } from "@mui/material";
+import { useState, useEffect } from "react";
+import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { updateActiveStep, updateClients, getClients } from "../../store/data";
+import { Client } from "../../types";
 
 const About = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const savedClients = useSelector(getClients) as Client[];
 
   const [clients, setClients] = useState<Client[]>([{
     email: "",
@@ -21,61 +15,67 @@ const About = () => {
     lastName: "",
     phoneNumber: "",
     isSpouseOrPartner: false
-  }])
-  const [confirm, setConfirm] = useState(false)
-  const [errors, setErrors] = useState<{ [key: string]: string }>({})
-  const [openDialog, setOpenDialog] = useState(false)  // State for controlling the dialog
+  }]);
+  const [confirm, setConfirm] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [openDialog, setOpenDialog] = useState(false);  // State for controlling the dialog
+
+  useEffect(() => {
+    if (savedClients.length > 0) {
+      setClients(savedClients);
+    }
+  }, [savedClients]);
 
   const updateClient = (index: number, key: keyof Client, value: string | boolean) => {
-    const updatedClients = [...clients]
-    updatedClients[index] = { ...updatedClients[index], [key]: value }
-    setClients(updatedClients)
-  }
+    const updatedClients = [...clients];
+    updatedClients[index] = { ...updatedClients[index], [key]: value };
+    setClients(updatedClients);
+  };
 
   const addClient = () => {
     setClients([
       ...clients,
       { firstName: "", lastName: "", email: "", phoneNumber: "", isSpouseOrPartner: false }
-    ])
-  }
+    ]);
+  };
 
   const removeClient = (index: number) => {
     if (clients.length > 1) {
-      const updatedClients = clients.filter((_, idx) => idx !== index)
-      setClients(updatedClients)
+      const updatedClients = clients.filter((_, idx) => idx !== index);
+      setClients(updatedClients);
     }
-  }
+  };
 
   const validateForm = () => {
-    const newErrors: { [key: string]: string } = {}
+    const newErrors: { [key: string]: string } = {};
     clients.forEach((client, index) => {
-      if (!client.firstName) newErrors[`firstName-${index}`] = "First name is required"
-      if (!client.lastName) newErrors[`lastName-${index}`] = "Last name is required"
-      if (client.email && !/\S+@\S+\.\S+/.test(client.email)) newErrors[`email-${index}`] = "Email is invalid"
-      if (client.phoneNumber && !/^\d{10}$/.test(client.phoneNumber)) newErrors[`phoneNumber-${index}`] = "Phone number must be 10 digits"
-    })
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+      if (!client.firstName) newErrors[`firstName-${index}`] = "First name is required";
+      if (!client.lastName) newErrors[`lastName-${index}`] = "Last name is required";
+      if (client.email && !/\S+@\S+\.\S+/.test(client.email)) newErrors[`email-${index}`] = "Email is invalid";
+      if (client.phoneNumber && !/^\d{10}$/.test(client.phoneNumber)) newErrors[`phoneNumber-${index}`] = "Phone number must be 10 digits";
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (validateForm() && confirm) {
-      console.log("Form submitted with clients:", clients)
-      dispatch(updateActiveStep(2))
+      dispatch(updateClients(clients));
+      dispatch(updateActiveStep(2));
       // Navigate or handle form submission
     } else {
       if (!confirm && validateForm()) {
-        setOpenDialog(true)  // Open the dialog if confirmation is not checked
+        setOpenDialog(true);  // Open the dialog if confirmation is not checked
       } else {
-        console.log("Please complete the form correctly.")
+        console.log("Please complete the form correctly.");
       }
     }
-  }
+  };
 
   const handleCloseDialog = () => {
-    setOpenDialog(false)
-  }
+    setOpenDialog(false);
+  };
 
   return (
     <Box>
@@ -86,10 +86,10 @@ const About = () => {
         {/* render client fields */}
         {clients?.map((client, index) => (
           <>
-            {index != 0 && <hr />}
+            {index !== 0 && <hr />}
             <Grid2 key={index} container spacing={2} sx={{ my: 2 }}>
               <Grid2 size={6}>
-                {index != 0 && <Typography variant="h6">{`Client ${index + 1}`}</Typography>}
+                {index !== 0 && <Typography variant="h6">{`Client ${index + 1}`}</Typography>}
               </Grid2>
               <Grid2 size={6} sx={{ justifyContent: "flex-end", display: "flex" }}>
                 {index > 0 && (
@@ -160,8 +160,8 @@ const About = () => {
           className="small"
           endIcon={<AddCircleOutline />}
           onClick={(e) => {
-            e.preventDefault()
-            addClient()
+            e.preventDefault();
+            addClient();
           }}
         >
           <Typography textTransform={"lowercase"}>
@@ -214,7 +214,7 @@ const About = () => {
         </DialogActionsMui>
       </Dialog>
     </Box>
-  )
-}
+  );
+};
 
-export default About
+export default About;
