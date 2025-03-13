@@ -161,3 +161,28 @@ export const estimatesData: Estimate[] = [
     },
 
 ]
+
+export const remortgageQuestions: BooleanQuestion[] = [
+    {
+        id: 1,
+        amount: 10,
+        checked: false, 
+        hidden: false,
+        label: "Transfer of Equity?"
+    },
+    {
+        id: 1,
+        amount: 10,
+        checked: false, 
+        hidden: false,
+        label: "Transfer of Equity?"
+    },
+    {
+        id: 3,
+        amount: 10,
+        checked: false, 
+        hidden: true,
+        label: "Is the building above 5 stories or higher than 11 meters?"
+    },
+
+]
