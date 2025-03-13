@@ -6,6 +6,7 @@ import { purchaseDetailsData } from "../../data/buying"
 import { formatCurrency } from "../../services/buyingService"
 import CustomButton from "../common/CustomButton"
 import { colors } from "../../theme"
+import AddressLookup from "../common/AddressLookup"
 
 interface Client {
   firstName: string
@@ -30,6 +31,7 @@ const Confirmation = () => {
     isSpouseOrPartner: false
   }])
   const [purchaseDetails, setPurchaseDetails] = useState<PurchaseDetails>()
+  const [confirm, setConfirm] = useState(false)
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
 
   useEffect(() => {
@@ -245,10 +247,24 @@ const Confirmation = () => {
             Purchased</Typography>
           </Grid>
           <Grid size={6}>
-            <TextField placeholder="Enter Address Manually"/>
+            {/* <TextField placeholder="Enter Address Manually"/> */}
+            <AddressLookup/>
           </Grid>
         </Grid>
         <hr />
+
+        {/* confirmation checkbox */}
+        <Box display={"flex"} alignItems={"flex-start"}>
+          <Checkbox
+            onChange={(_, checked) => setConfirm(checked)}
+            checked={confirm}
+            color="primary"
+          />
+          <Typography sx={{ ml: 2 }}>
+            We aim to provide you the best experience possible by ensuring all enquiries are given our full and immediate attention. To ensure you are provided accurate costs, we will need your permission to contact you. By agreeing, you will NOT BE added to any promotional mailing lists.
+          </Typography>
+        </Box>
+        <br />
 
         <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"}>
           <CustomButton styles={{background: colors?.toggleButtonColor }} title="BACK TO ESTIMATE"/>
