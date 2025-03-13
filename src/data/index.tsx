@@ -186,3 +186,20 @@ export const remortgageQuestions: BooleanQuestion[] = [
     },
 
 ]
+
+export const sellingQuestions: BooleanQuestion[] = [
+    {
+        id: 1,
+        amount: 10,
+        checked: false, 
+        hidden: false,
+        label: "Shared Ownership?"
+    },
+    {
+        id: 1,
+        amount: 10,
+        checked: false, 
+        hidden: false,
+        label: "Are you redeeming a Mortgage?"
+    }
+]

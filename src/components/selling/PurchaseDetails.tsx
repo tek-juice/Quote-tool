@@ -2,7 +2,7 @@ import { Box, Button, colors, DialogActions, InputAdornment, TextField, Typograp
 import BooleanQuestionComponent from "../common/BooleanQuestion";
 import { useEffect, useState } from "react";
 import { Address, BooleanQuestion } from "../../types";
-import { remortgageQuestions } from "../../data";
+import { sellingQuestions } from "../../data";
 import { useNavigate } from "react-router";
 import { formatCurrency } from "../../services/buyingService";
 import { AddressesData } from "../../data/buying";
@@ -18,13 +18,13 @@ const PurchaseDetails = () => {
   const [tenure, setTenure] = useState("");
   const [addresses, setAddresses] = useState<Address[]>([]);
   // const [purchaseAddress, setPurchaseAddress] = useState<Address | null>(null);
-  const [numberOfOwners, setNumberOfOwners] = useState<number>(0);
+  const [numberOfSellers, setNumberOfSellers] = useState<number>(0);
   const [numberValue, setNumberValue] = useState("");
   const [displayValue, setDisplayValue] = useState("");
   
   const [errors, setErrors] = useState({
-    amountBeingBorrowed: "",
-    numberOfOwners: "",
+    salePrice: "",
+    numberOfSellers: "",
     tenure: "",
     remortgageAddress: "",
   });
@@ -32,49 +32,37 @@ const PurchaseDetails = () => {
   const tenureOptions = ["Freehold", "Leasehold"];
   const dispatch = useDispatch();
 
-  const handleAmountBeingBorrowedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSalePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = event.target.value.replace(/\D/g, "");
     setNumberValue(rawValue);
     setDisplayValue(formatCurrency(rawValue));
   };
 
-  const handleNumberOfOwnersChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNumberOfSellersChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = parseInt(event.target.value, 10);
     if (value < 1) value = 1;
     else if (value > 4) value = 4;
-    setNumberOfOwners(value);
+    setNumberOfSellers(value);
   };
 
   const handleTenureChange = (event: SelectChangeEvent<string>) => {
     const selectedTenure = event.target.value as string;
     setTenure(selectedTenure);
-  
-    setQuestions((prevQuestions) =>
-      prevQuestions?.map((question) =>
-        question.id === 3 ? { ...question, hidden: selectedTenure != "Leasehold" } : question
-      )
-    );
   };
 
   useEffect(() => {
-    setQuestions(remortgageQuestions);
+    setQuestions(sellingQuestions);
     setAddresses(AddressesData);
     console.log(addresses);
     setTenure(tenureOptions[0]);
-  
-    setQuestions((prevQuestions) =>
-      prevQuestions?.map((question) =>
-        question.id === 3 ? { ...question, hidden: tenureOptions[0] != "Leasehold" } : question
-      )
-    );
   }, []);
 
   const navigate = useNavigate();
 
   const validateForm = () => {
     const newErrors: any = {};
-    if (!displayValue) newErrors.amountBeingBorrowed = "Amount being borrowed is required";
-    if (numberOfOwners <= 0) newErrors.numberOfOwners = "Number of owners must be greater than 0";
+    if (!displayValue) newErrors.salePrice = "Sale price is required";
+    if (numberOfSellers <= 0) newErrors.numberOfSellers = "Number of sellers must be greater than 0";
     if (!tenure) newErrors.tenure = "Tenure is required";
     // if (!remortgageAddress) newErrors.remortgageAddress = "Remortgage address is required";
     setErrors(newErrors);
@@ -84,7 +72,7 @@ const PurchaseDetails = () => {
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (validateForm()) {
-      const formData = { amountBeingBorrowed: numberValue, numberOfOwners, tenure };
+      const formData = { salePrice: numberValue, numberOfSellers, tenure };
       const questionResponses = questions?.reduce<Record<string, boolean>>((acc, question) => {
         acc[question.label] = question.checked;
         return acc;
@@ -103,26 +91,26 @@ const PurchaseDetails = () => {
       <form onSubmit={onSubmit}>
         <Box display="flex" width="100%" sx={{ my: 3 }} justifyContent="stretch" alignItems="center">
           <Box sx={{ mr: 2 }}>
-            <Typography>Amount being borrowed</Typography>
+            <Typography>Sale price</Typography>
             <TextField
               value={displayValue}
-              onChange={handleAmountBeingBorrowedChange}
-              error={!!errors.amountBeingBorrowed}
-              helperText={errors.amountBeingBorrowed}
-              placeholder="Amount being borrowed"
+              onChange={handleSalePriceChange}
+              error={!!errors.salePrice}
+              helperText={errors.salePrice}
+              placeholder="Sale price"
               InputProps={{ startAdornment: (<InputAdornment position="start"><CurrencyPoundIcon /></InputAdornment>) }}
               fullWidth required
             />
           </Box>
           <Box>
-            <Typography>Number of owners</Typography>
+            <Typography>Number of sellers</Typography>
             <TextField
               type="number"
-              value={numberOfOwners}
-              onChange={handleNumberOfOwnersChange}
-              error={!!errors.numberOfOwners}
-              helperText={errors.numberOfOwners}
-              placeholder="Number of owners"
+              value={numberOfSellers}
+              onChange={handleNumberOfSellersChange}
+              error={!!errors.numberOfSellers}
+              helperText={errors.numberOfSellers}
+              placeholder="Number of sellers"
               InputProps={{ startAdornment: (<InputAdornment position="start"><PeopleAltIcon /></InputAdornment>) }}
               fullWidth required
             />

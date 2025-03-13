@@ -41,7 +41,7 @@ dispatch(updateSteps(["selling details", "About you", "Cost Estimate"]))
           :
           activeStep == 3
             ?
-          <PurchaseEstimateLayout  title="Confirm Purchase Estimate Details" no_steppers>
+          <PurchaseEstimateLayout  title="Lets get you moving!" no_steppers>
             <Confirmation/>
           </PurchaseEstimateLayout>
 

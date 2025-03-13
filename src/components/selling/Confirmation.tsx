@@ -253,6 +253,17 @@ const Confirmation = () => {
         </Grid>
         <hr />
 
+        {/* additional information  */}
+        <Typography variant="h5">Additional Information</Typography>
+        <Typography>Do you have any additional information regarding your transaction?</Typography>
+        <TextField
+          sx={{my:2}}
+          fullWidth
+          multiline
+          rows={4}
+          placeholder="Additional Information"
+          />
+
         {/* confirmation checkbox */}
         <Box display={"flex"} alignItems={"flex-start"}>
           <Checkbox
