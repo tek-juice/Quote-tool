@@ -6,7 +6,7 @@ import { purchaseDetailsData } from "../../data/buying"
 import { formatCurrency } from "../../services/buyingService"
 import CustomButton from "../common/CustomButton"
 import { colors } from "../../theme"
-import AddressLookup from "../common/AddressLookup"
+// import AddressLookup from "../common/AddressLookup"
 
 interface Client {
   firstName: string
@@ -222,7 +222,7 @@ const Confirmation = () => {
             <Typography>Purchase price</Typography>
           </Grid>
           <Grid size={6}>
-            <Typography>£{formatCurrency(purchaseDetails?.purchasePrice)}</Typography>
+            <Typography>£{formatCurrency(purchaseDetails?.price)}</Typography>
           </Grid>
         </Grid>
         <Grid container sx={{my:1}} gap={1}>
@@ -230,7 +230,7 @@ const Confirmation = () => {
             <Typography>Number of buyers</Typography>
           </Grid>
           <Grid size={6}>
-            <Typography>{purchaseDetails?.numberofbuyers}</Typography>
+            <Typography>{purchaseDetails?.people}</Typography>
           </Grid>
         </Grid>
         <Grid container gap={1}>
@@ -248,7 +248,7 @@ const Confirmation = () => {
           </Grid>
           <Grid size={6}>
             {/* <TextField placeholder="Enter Address Manually"/> */}
-            <AddressLookup/>
+            {/* <AddressLookup/> */}
           </Grid>
         </Grid>
         <hr />

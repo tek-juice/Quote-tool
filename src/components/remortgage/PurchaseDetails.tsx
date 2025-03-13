@@ -8,7 +8,7 @@ import { formatCurrency } from "../../services/buyingService";
 import { AddressesData } from "../../data/buying";
 import { useDispatch } from "react-redux";
 import { updateActiveStep } from "../../store/data";
-import AddressLookup from "../common/AddressLookup";
+// import AddressLookup from "../common/AddressLookup";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import CurrencyPoundIcon from '@mui/icons-material/CurrencyPound';
 import HomeIcon from '@mui/icons-material/Home';
@@ -153,7 +153,7 @@ const PurchaseDetails = () => {
           <Grid item xs={6}>
             <Box sx={{ ml: 1 }}>
               {/* <Typography>Remortgage address</Typography> */}
-              <AddressLookup/>
+              {/* <AddressLookup/> */}
             </Box>
           </Grid>
         </Grid>

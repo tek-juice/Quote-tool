@@ -8,7 +8,7 @@ interface Client {
   firstName: string
   lastName: string
   email?: string
-  phoneNumber?: string
+  phone?: string
   isSpouseOrPartner?: boolean
 }
 
@@ -19,7 +19,7 @@ const About = () => {
     email: "",
     firstName: "",
     lastName: "",
-    phoneNumber: "",
+    phone: "",
     isSpouseOrPartner: false
   }])
   const [confirm, setConfirm] = useState(false)
@@ -35,7 +35,7 @@ const About = () => {
   const addClient = () => {
     setClients([
       ...clients,
-      { firstName: "", lastName: "", email: "", phoneNumber: "", isSpouseOrPartner: false }
+      { firstName: "", lastName: "", email: "", phone: "", isSpouseOrPartner: false }
     ])
   }
 
@@ -52,7 +52,7 @@ const About = () => {
       if (!client.firstName) newErrors[`firstName-${index}`] = "First name is required"
       if (!client.lastName) newErrors[`lastName-${index}`] = "Last name is required"
       if (client.email && !/\S+@\S+\.\S+/.test(client.email)) newErrors[`email-${index}`] = "Email is invalid"
-      if (client.phoneNumber && !/^\d{10}$/.test(client.phoneNumber)) newErrors[`phoneNumber-${index}`] = "Phone number must be 10 digits"
+      if (client.phone && !/^\d{10}$/.test(client.phone)) newErrors[`phone-${index}`] = "Phone number must be 10 digits"
     })
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -134,12 +134,12 @@ const About = () => {
               <Grid2 size={6}>
                 <TextField
                   fullWidth
-                  value={client.phoneNumber}
+                  value={client.phone}
                   label="Phone number (optional)"
                   placeholder="(optional)"
-                  onChange={(e) => updateClient(index, "phoneNumber", e.target.value)}
-                  error={!!errors[`phoneNumber-${index}`]}
-                  helperText={errors[`phoneNumber-${index}`]}
+                  onChange={(e) => updateClient(index, "phone", e.target.value)}
+                  error={!!errors[`phone-${index}`]}
+                  helperText={errors[`phone-${index}`]}
                 />
               </Grid2>
               {index !== 0 && (

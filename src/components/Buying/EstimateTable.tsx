@@ -1,7 +1,7 @@
 import { Typography, Box } from "@mui/material";
 import { colors } from "../../theme/index";
 import { useEffect, useState } from "react";
-import { Estimate, BooleanQuestion } from "../../types";
+import { Estimate} from "../../types";
 import { estimatesData, booleanQuestions } from "../../data";
 import { formatCurrency } from "../../services/buyingService";
 import CustomButton from "../common/CustomButton";

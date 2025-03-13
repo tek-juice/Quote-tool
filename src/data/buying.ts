@@ -290,8 +290,19 @@ export const AddressesData: Address[] = [
 ];
 
 export const purchaseDetailsData: PurchaseDetails ={ 
-    purchasePrice: 1000000,
-    numberofbuyers: 1,
-    address: "London",
-    tenure: "freehold"
+    price: 1000000,
+    people: 1,
+    address: {
+        plotNumber: "1",
+        buildingName: "Buckingham Palace",
+        buildingNumber: "",
+        street: "Westminster",
+        district: "City of Westminster",
+        town: "London",
+        county: "Greater London",
+        postcode: "SW1A 2AA",
+        country: "UK"
+    },
+    tenure: "freehold",
+    questions: []
 }

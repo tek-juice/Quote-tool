@@ -6,11 +6,11 @@ const SendEmail = () => {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
-  const [phoneNumber, setPhoneNumber] = useState("")
-  const [errors, setErrors] = useState({ firstName: "", lastName: "", email: "", phoneNumber: "" })
+  const [phone, setphone] = useState("")
+  const [errors, setErrors] = useState({ firstName: "", lastName: "", email: "", phone: "" })
 
   const validate = () => {
-    let tempErrors = { firstName: "", lastName: "", email: "", phoneNumber: "" }
+    let tempErrors = { firstName: "", lastName: "", email: "", phone: "" }
     let isValid = true
 
     if (!firstName) {
@@ -28,8 +28,8 @@ const SendEmail = () => {
       tempErrors.email = "Email is invalid"
       isValid = false
     }
-    if (!phoneNumber) {
-      tempErrors.phoneNumber = "Phone number is required"
+    if (!phone) {
+      tempErrors.phone = "Phone number is required"
       isValid = false
     }
 
@@ -40,7 +40,7 @@ const SendEmail = () => {
   const handleSubmit = () => {
     if (validate()) {
       // Store data or send it to the server
-      console.log({ firstName, lastName, email, phoneNumber })
+      console.log({ firstName, lastName, email, phone })
       setSubmitted(true)
     }
   }
@@ -107,10 +107,10 @@ const SendEmail = () => {
               <Typography>Phone number</Typography>
               <TextField 
                 placeholder="phone number" 
-                value={phoneNumber} 
-                onChange={(e) => setPhoneNumber(e.target.value)} 
-                error={!!errors.phoneNumber}
-                helperText={errors.phoneNumber}
+                value={phone} 
+                onChange={(e) => setphone(e.target.value)} 
+                error={!!errors.phone}
+                helperText={errors.phone}
               />
             </Box>
           </Grid>

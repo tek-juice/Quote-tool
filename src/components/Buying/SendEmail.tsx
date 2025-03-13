@@ -12,20 +12,20 @@ const SendEmail = () => {
   const [firstName, setFirstName] = useState(firstClient.firstName || "")
   const [lastName, setLastName] = useState(firstClient.lastName || "")
   const [email, setEmail] = useState(firstClient.email || "")
-  const [phoneNumber, setPhoneNumber] = useState(firstClient.phoneNumber || "")
-  const [errors, setErrors] = useState({ firstName: "", lastName: "", email: "", phoneNumber: "" })
+  const [phone, setphone] = useState(firstClient.phone || "")
+  const [errors, setErrors] = useState({ firstName: "", lastName: "", email: "", phone: "" })
 
   useEffect(() => {
     if (firstClient) {
       setFirstName(firstClient.firstName || "")
       setLastName(firstClient.lastName || "")
       setEmail(firstClient.email || "")
-      setPhoneNumber(firstClient.phoneNumber || "")
+      setphone(firstClient.phone || "")
     }
   }, [firstClient])
 
   const validate = () => {
-    let tempErrors = { firstName: "", lastName: "", email: "", phoneNumber: "" }
+    let tempErrors = { firstName: "", lastName: "", email: "", phone: "" }
     let isValid = true
 
     if (!firstName) {
@@ -43,8 +43,8 @@ const SendEmail = () => {
       tempErrors.email = "Email is invalid"
       isValid = false
     }
-    if (!phoneNumber) {
-      tempErrors.phoneNumber = "Phone number is required"
+    if (!phone) {
+      tempErrors.phone = "Phone number is required"
       isValid = false
     }
 
@@ -55,7 +55,7 @@ const SendEmail = () => {
   const handleSubmit = () => {
     if (validate()) {
       // Store data or send it to the server
-      console.log({ firstName, lastName, email, phoneNumber })
+      console.log({ firstName, lastName, email, phone })
       setSubmitted(true)
       
     }
@@ -127,10 +127,10 @@ const SendEmail = () => {
               <TextField 
               fullWidth
                 placeholder="phone number" 
-                value={phoneNumber} 
-                onChange={(e) => setPhoneNumber(e.target.value)} 
-                error={!!errors.phoneNumber}
-                helperText={errors.phoneNumber}
+                value={phone} 
+                onChange={(e) => setphone(e.target.value)} 
+                error={!!errors.phone}
+                helperText={errors.phone}
               />
             </Box>
           </Grid>

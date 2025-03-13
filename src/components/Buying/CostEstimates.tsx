@@ -20,7 +20,7 @@ const CostEstimate = () => {
     firstName: "",
     lastName: "",
     email: "",
-    phoneNumber: "",
+    phone: "",
   };
 
   return (
@@ -29,7 +29,7 @@ const CostEstimate = () => {
       <EstimateHeader
       email={firstClient.email || ""}
       name={`${firstClient.firstName} ${firstClient.lastName}`}
-      phone_number={firstClient.phoneNumber || ""}
+      phone_number={firstClient.phone || ""}
       purchase_price={purchaseDetails.price || 0}
       reference_number={Math.floor(10000000 + Math.random() * 90000000)}
       />

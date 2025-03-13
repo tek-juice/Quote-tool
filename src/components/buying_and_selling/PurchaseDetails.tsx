@@ -172,7 +172,7 @@ const PurchaseDetails = () => {
           </Grid>
           <Grid item xs={6}>
             <Box sx={{ ml: 1 }}>
-              <AddressLookup/>
+              <AddressLookup address={null} setAddress={() => {}} validateAddress={() => true} />
             </Box>
           </Grid>
         </Grid>
@@ -228,7 +228,7 @@ const PurchaseDetails = () => {
           </Grid>
           <Grid item xs={6}>
             <Box sx={{ ml: 1 }}>
-              <AddressLookup/>
+              <AddressLookup address={null} setAddress={() => {}} validateAddress={() => true} />
             </Box>
           </Grid>
         </Grid>
