@@ -1,7 +1,66 @@
-const Selling = () => {
+import { useDispatch, useSelector } from "react-redux"
+import PurchaseDetails from "../components/selling/PurchaseDetails"
+import PurchaseEstimateLayout from "../components/common/PurchaseEstimateLayout"
+import { getActiveStep, updateSteps } from "../store/data"
+import About from "../components/selling/About"
+import CostEstimates from "../components/selling/CostEstimates"
+import Confirmation from "../components/selling/Confirmation"
+import Final from "../components/selling/Final"
+import CancelEstimation from "../components/selling/CancelEstimation"
+import SendEmail from "../components/selling/SendEmail"
+import { useLayoutEffect } from "react"
+
+const Index = () => {
+
+  const activeStep = useSelector(getActiveStep)
+  const dispatch = useDispatch()
+
+  useLayoutEffect(()=>{
+dispatch(updateSteps(["selling details", "About you", "Cost Estimate"]))
+  },[])
+
   return (
-    <div>Selling</div>
+
+    activeStep == 0
+      ?
+      <PurchaseEstimateLayout title="selling Estimates" subtitle="Get a personalised estimate in just a few clicks">
+        <PurchaseDetails />
+      </PurchaseEstimateLayout>
+      :
+      activeStep == 1
+        ?
+        <PurchaseEstimateLayout title="selling Estimates" subtitle="Get a personalised estimate in just a few clicks">
+          <About />
+        </PurchaseEstimateLayout>
+        :
+        activeStep == 2
+          ?
+          <PurchaseEstimateLayout no_steppers>
+            <CostEstimates />
+          </PurchaseEstimateLayout>
+          :
+          activeStep == 3
+            ?
+          <PurchaseEstimateLayout  title="Confirm Purchase Estimate Details" no_steppers>
+            <Confirmation/>
+          </PurchaseEstimateLayout>
+
+            :
+            activeStep == 4
+            ?
+              <Final/>
+            :
+            activeStep == -1
+            ?
+            <CancelEstimation/>
+            :
+            activeStep == -2
+            ?
+            <SendEmail/>
+            :
+          ""
+
   )
 }
 
-export default Selling
+export default Index

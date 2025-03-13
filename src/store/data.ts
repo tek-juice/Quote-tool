@@ -3,7 +3,7 @@ import { State, Store } from "../types";
 
 const initialState: State = {
   // stepper  data
-  activeStep: -2,
+  activeStep: 0,
   steps: [],
 };
 
