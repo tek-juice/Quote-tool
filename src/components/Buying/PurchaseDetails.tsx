@@ -1,4 +1,4 @@
-import { Box, Button, colors, DialogActions, InputAdornment, TextField, Typography, Grid, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { Box, Button, colors, DialogActions, InputAdornment, TextField, Typography, Grid, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from "@mui/material";
 import BooleanQuestionComponent from "../common/BooleanQuestion";
 import { useEffect, useState } from "react";
 import { Address, BooleanQuestion } from "../../types";
@@ -45,11 +45,28 @@ const PurchaseDetails = () => {
     setNumberOfBuyers(value);
   };
 
+  const handleTenureChange = (event: SelectChangeEvent<string>) => {
+    const selectedTenure = event.target.value as string;
+    setTenure(selectedTenure);
+  
+    setQuestions((prevQuestions) =>
+      prevQuestions?.map((question) =>
+        question.id === 11 ? { ...question, hidden: selectedTenure != "Leasehold" } : question
+      )
+    );
+  };
+
   useEffect(() => {
     setQuestions(booleanQuestions);
     setAddresses(AddressesData);
-    console.log(addresses)
-    setTenure(tenureOptions[0])
+    console.log(addresses);
+    setTenure(tenureOptions[0]);
+  
+    setQuestions((prevQuestions) =>
+      prevQuestions?.map((question) =>
+        question.id === 11 ? { ...question, hidden: tenureOptions[0] != "Leasehold" } : question
+      )
+    );
   }, []);
 
   const navigate = useNavigate();
@@ -111,10 +128,10 @@ const PurchaseDetails = () => {
               <FormControl fullWidth>
                 <InputLabel>Tenure</InputLabel>
                 <Select
-                label="Tenure"
+                  label="Tenure"
                   defaultValue={tenureOptions[0]}
                   value={tenure}
-                  onChange={(e) => setTenure(e.target.value)}
+                  onChange={handleTenureChange}
                   error={!!errors.tenure}
                   startAdornment={<InputAdornment position="start"><HomeIcon /></InputAdornment>}
                 >

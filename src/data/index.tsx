@@ -71,6 +71,14 @@ export const booleanQuestions: BooleanQuestion[] = [
         hidden: false,
         label: "Do you have a gifted deposit?"
     },
+    {
+        id: 11,
+        amount: 10,
+        checked: false,
+        hidden: true,
+        label: "Is the building above 5 stories or higher than 11 meters?"
+    },
+    
 ]
 
 export const estimatesData: Estimate[] = [
