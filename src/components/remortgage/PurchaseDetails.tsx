@@ -101,8 +101,8 @@ const PurchaseDetails = () => {
     <Box>
       <Typography>Please complete the following information to obtain your instant estimate</Typography>
       <form onSubmit={onSubmit}>
-        <Box display="flex" width="100%" sx={{ my: 3 }} justifyContent="stretch" alignItems="center">
-          <Box sx={{ mr: 2 }}>
+        <Grid container spacing={2} sx={{ my: 3 }}>
+          <Grid item xs={6}>
             <Typography>Amount being borrowed</Typography>
             <TextField
               value={displayValue}
@@ -113,8 +113,8 @@ const PurchaseDetails = () => {
               InputProps={{ startAdornment: (<InputAdornment position="start"><CurrencyPoundIcon /></InputAdornment>) }}
               fullWidth required
             />
-          </Box>
-          <Box>
+          </Grid>
+          <Grid item xs={6}>
             <Typography>Number of owners</Typography>
             <TextField
               type="number"
@@ -126,8 +126,8 @@ const PurchaseDetails = () => {
               InputProps={{ startAdornment: (<InputAdornment position="start"><PeopleAltIcon /></InputAdornment>) }}
               fullWidth required
             />
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
 
         <Grid container>
           <Grid item xs={6}>
