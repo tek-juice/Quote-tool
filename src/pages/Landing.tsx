@@ -3,7 +3,7 @@ import { Option } from "../types";
 import { useNavigate } from "react-router";
 import Grid from "@mui/material/Grid2";
 import Item from "../components/common/GridItem";
-import { useState } from "react";
+// import { useState } from "react";
 
 // icons 
 import BuyingIcon from "../assets/buying.svg";
@@ -36,7 +36,7 @@ const Landing = () => {
   ];
 
   const navigate = useNavigate();
-  const [hoveredButton, setHoveredButton] = useState<number | null>(null);
+  // const [hoveredButton, setHoveredButton] = useState<number | null>(null);
 
   return (
     <Box
@@ -65,7 +65,7 @@ const Landing = () => {
                 }}
                 elevation={0}
               >
-                <div className="option-img">
+                <div className="option-img" >
                   <img src={option?.icon?.toString()} height={50} />
                 </div>
 
@@ -79,13 +79,14 @@ const Landing = () => {
 
                 {/* option button with hover effect */}
                 <Button
-                  className="btn-primary small"
-                  color={hoveredButton === index ? "primary" : "inherit"}
+                  className="small"
+                  // color={hoveredButton === index ? "primary" : "inherit"}
                   onClick={() => navigate(option?.route)}
                   disableElevation
-                  variant={hoveredButton === index ? "contained" : "outlined"}
-                  onMouseEnter={() => setHoveredButton(index)}
-                  onMouseLeave={() => setHoveredButton(null)}
+                  variant="contained"
+                  // variant={hoveredButton === index ? "contained" : "outlined"}
+                  // onMouseEnter={() => setHoveredButton(index)}
+                  // onMouseLeave={() => setHoveredButton(null)}
                 >
                   <Typography color={"textPrimary"}>Get a quote</Typography>
                 </Button>
