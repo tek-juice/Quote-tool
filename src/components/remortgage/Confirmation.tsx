@@ -1,44 +1,32 @@
 import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material"
 import { Box, Button, Grid2 as Grid, TextField, Typography, Checkbox } from "@mui/material"
-import { useEffect, useState } from "react"
-import { PurchaseDetails } from "../../types"
-import { purchaseDetailsData } from "../../data/buying"
+import { useEffect, useState, useRef } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Client, PurchaseDetails, Address } from "../../types"
+import { getClients, getPurchaseDetails, updateClients, setPurchaseDetails, updateActiveStep } from "../../store/data"
 import { formatCurrency } from "../../services/buyingService"
 import CustomButton from "../common/CustomButton"
+import AddressLookup from "../common/AddressLookup"
 import { colors } from "../../theme"
-// import AddressLookup from "../common/AddressLookup"
-
-interface Client {
-  firstName: string
-  lastName: string
-  companyName?: string
-  email: string
-  phone: string
-  NINO?: string
-  dateOfBirth?: string
-  isSpouseOrPartner?: boolean
-}
 
 const Confirmation = () => {
-  const [clients, setClients] = useState<Client[]>([{
-    firstName: "",
-    lastName: "",
-    companyName: "",
-    email: "",
-    phone: "",
-    NINO: "",
-    dateOfBirth: "",
-    isSpouseOrPartner: false
-  }])
-  const [purchaseDetails, setPurchaseDetails] = useState<PurchaseDetails>()
-  const [confirm, setConfirm] = useState(false)
+  const dispatch = useDispatch()
+  const clientsFromStore = useSelector(getClients)
+  const savedPurchaseDetails = useSelector(getPurchaseDetails) as PurchaseDetails | null
+
+  const [clients, setClients] = useState<Client[]>(clientsFromStore)
+  const [purchaseDetails, setPurchaseDetailsState] = useState<PurchaseDetails | null>(savedPurchaseDetails)
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  const [confirm, setConfirm] = useState(false)
+  const addressLookupRefs = useRef<{ [key: number]: { validateManualAddress: () => boolean } | null } & { purchaseDetails?: { validateManualAddress: () => boolean } | null }>({})
+  const [additionalInformation, setAdditionalInformation] = useState<string>("")
 
   useEffect(() => {
-    setPurchaseDetails(purchaseDetailsData)
-  }, [])
+    setClients(clientsFromStore)
+    setPurchaseDetailsState(savedPurchaseDetails)
+  }, [clientsFromStore, savedPurchaseDetails])
 
-  const updateClient = (index: number, key: keyof Client, value: string | boolean) => {
+  const updateClient = (index: number, key: keyof Client, value: string | boolean | Address | null) => {
     const updatedClients = [...clients]
     updatedClients[index] = { ...updatedClients[index], [key]: value }
     setClients(updatedClients)
@@ -47,7 +35,7 @@ const Confirmation = () => {
   const addClient = () => {
     setClients([
       ...clients,
-      { firstName: "", lastName: "", companyName: "", email: "", phone: "", NINO: "", dateOfBirth: "", isSpouseOrPartner: false }
+      { firstName: "", lastName: "", companyName: "", email: "", phone: "", NINO: "", dateOfBirth: "", isSpouseOrPartner: false, address: undefined }
     ])
   }
 
@@ -69,18 +57,27 @@ const Confirmation = () => {
       if (client.phone && !/^\d{10}$/.test(client.phone)) newErrors[`phone-${index}`] = "Phone number must be 10 digits"
       if (!client.NINO) newErrors[`NINO-${index}`] = "NI No. is required"
       if (!client.dateOfBirth) newErrors[`dateOfBirth-${index}`] = "Date of Birth is required"
+      if (!client.address) newErrors[`address-${index}`] = "Address is required"
     })
+    if (!purchaseDetails?.price) newErrors["price"] = "Purchase price is required"
+    if (!purchaseDetails?.people) newErrors["people"] = "Number of buyers is required"
+    if (!purchaseDetails?.tenure) newErrors["tenure"] = "Tenure is required"
+    if (!purchaseDetails?.address) newErrors["purchaseAddress"] = "Address of property being purchased is required"
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (validateForm()) {
-      console.log("Form submitted with clients:", clients)
-      // Store the data or handle form submission
+    const isAddressValid = Object.values(addressLookupRefs.current).every(ref => ref?.validateManualAddress())
+    if (validateForm() && isAddressValid) {
+      dispatch(updateClients(clients))
+      if (purchaseDetails) {
+        dispatch(setPurchaseDetails(purchaseDetails))
+      }
+      dispatch(updateActiveStep(4))
     } else {
-      console.log("Please complete the form correctly.")
+      console.log("Please complete the form correctly.", validateForm(), isAddressValid)
     }
   }
 
@@ -200,6 +197,17 @@ const Confirmation = () => {
                 />
               </Grid>
             </Grid>
+
+            <Typography>Address</Typography>
+            <br />
+            <AddressLookup
+              address={client.address || null}
+              setAddress={(address) => updateClient(index, "address", address)}
+              validateAddress={() => true}
+              ref={(ref) => {
+                addressLookupRefs.current[index] = ref;
+              }}
+            />
           </div>
         ))}
 
@@ -210,11 +218,11 @@ const Confirmation = () => {
           onClick={addClient}
         >
           <Typography textTransform={"lowercase"}>
-            { clients?.length > 1 ? "Add another client" :"Add second client"}
+            {clients?.length > 1 ? "Add another client" : "Add second client"}
           </Typography>
         </Button>
 
-        {/* purchase details  */}
+        {/* purchase details */}
         <Typography variant="h6" sx={{ my: 2 }}>Purchase Details</Typography>
         <hr />
         <Grid container gap={1}>
@@ -223,14 +231,16 @@ const Confirmation = () => {
           </Grid>
           <Grid size={6}>
             <Typography>£{formatCurrency(purchaseDetails?.price)}</Typography>
+            {errors["price"] && <Typography color="error">{errors["price"]}</Typography>}
           </Grid>
         </Grid>
-        <Grid container sx={{my:1}} gap={1}>
+        <Grid container sx={{ my: 1 }} gap={1}>
           <Grid size={5}>
             <Typography>Number of buyers</Typography>
           </Grid>
           <Grid size={6}>
             <Typography>{purchaseDetails?.people}</Typography>
+            {errors["people"] && <Typography color="error">{errors["people"]}</Typography>}
           </Grid>
         </Grid>
         <Grid container gap={1}>
@@ -239,30 +249,43 @@ const Confirmation = () => {
           </Grid>
           <Grid size={6}>
             <Typography>{purchaseDetails?.tenure}</Typography>
+            {errors["tenure"] && <Typography color="error">{errors["tenure"]}</Typography>}
           </Grid>
         </Grid>
-        <Grid container sx={{my:2}} gap={1}>
+        <Grid container sx={{ my: 2 }} gap={1}>
           <Grid size={5}>
-            <Typography>Address of property being
-            Purchased</Typography>
+            <Typography>Address of property being Purchased</Typography>
           </Grid>
           <Grid size={6}>
-            {/* <TextField placeholder="Enter Address Manually"/> */}
-            {/* <AddressLookup/> */}
+            <AddressLookup
+              address={purchaseDetails?.address || null}
+              setAddress={(address) => {
+                if (address) {
+                  setPurchaseDetailsState({ ...purchaseDetails, address } as PurchaseDetails)
+                }
+              }}
+              validateAddress={() => true}
+              ref={(ref) => {
+                addressLookupRefs.current["purchaseDetails"] = ref;
+              }}
+            />
+            {errors["purchaseAddress"] && <Typography color="error">{errors["purchaseAddress"]}</Typography>}
           </Grid>
         </Grid>
         <hr />
 
-        {/* additional information  */}
+        {/* additional information */}
         <Typography variant="h5">Additional Information</Typography>
         <Typography>Do you have any additional information regarding your transaction?</Typography>
         <TextField
-          sx={{my:2}}
+          value={additionalInformation}
+          onChange={(e) => setAdditionalInformation(e.target.value)}
+          sx={{ my: 2 }}
           fullWidth
           multiline
           rows={4}
           placeholder="Additional Information"
-          />
+        />
 
         {/* confirmation checkbox */}
         <Box display={"flex"} alignItems={"flex-start"}>
@@ -277,11 +300,9 @@ const Confirmation = () => {
         </Box>
         <br />
 
-        
-
         <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"}>
-          <CustomButton styles={{background: colors?.toggleButtonColor }} title="BACK TO ESTIMATE"/>
-          <CustomButton title="CONFIRM DETAILS"  type="submit"/>
+          <CustomButton action={() => dispatch(updateActiveStep(2))} styles={{ background: colors?.toggleButtonColor }} title="BACK TO ESTIMATE" />
+          <CustomButton title="CONFIRM DETAILS" type="submit" />
         </Box>
       </form>
     </div>

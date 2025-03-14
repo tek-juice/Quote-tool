@@ -1,27 +1,27 @@
 import { Box, Button, colors, DialogActions, InputAdornment, TextField, Typography, Grid, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from "@mui/material";
 import BooleanQuestionComponent from "../common/BooleanQuestion";
-import { useEffect, useState } from "react";
-import { Address, BooleanQuestion } from "../../types";
+import { useEffect, useState, useRef, useLayoutEffect } from "react";
+import { Address, BooleanQuestion, PurchaseDetails } from "../../types";
 import { remortgageQuestions } from "../../data";
 import { useNavigate } from "react-router";
 import { formatCurrency } from "../../services/buyingService";
 import { AddressesData } from "../../data/buying";
-import { useDispatch } from "react-redux";
-import { updateActiveStep } from "../../store/data";
-// import AddressLookup from "../common/AddressLookup";
+import { useDispatch, useSelector } from "react-redux";
+import { getPurchaseDetails, setPurchaseDetails, updateActiveStep } from "../../store/data";
+import AddressLookup from "../common/AddressLookup";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import CurrencyPoundIcon from '@mui/icons-material/CurrencyPound';
 import HomeIcon from '@mui/icons-material/Home';
 
-const PurchaseDetails = () => {
+const PurchaseDetailsComponent = () => {
   const [questions, setQuestions] = useState<BooleanQuestion[]>();
   const [tenure, setTenure] = useState("");
   const [addresses, setAddresses] = useState<Address[]>([]);
-  // const [purchaseAddress, setPurchaseAddress] = useState<Address | null>(null);
+  const [purchaseAddress, setPurchaseAddress] = useState<Address | null>(null);
   const [numberOfOwners, setNumberOfOwners] = useState<number>(0);
   const [numberValue, setNumberValue] = useState("");
   const [displayValue, setDisplayValue] = useState("");
-  
+
   const [errors, setErrors] = useState({
     amountBeingBorrowed: "",
     numberOfOwners: "",
@@ -29,8 +29,9 @@ const PurchaseDetails = () => {
     remortgageAddress: "",
   });
 
-  const tenureOptions = ["Freehold", "Leasehold"];
+  const tenureOptions = ["freehold", "leasehold"];
   const dispatch = useDispatch();
+  const addressLookupRef = useRef<{ validateManualAddress: () => boolean }>(null);
 
   const handleAmountBeingBorrowedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = event.target.value.replace(/\D/g, "");
@@ -48,26 +49,13 @@ const PurchaseDetails = () => {
   const handleTenureChange = (event: SelectChangeEvent<string>) => {
     const selectedTenure = event.target.value as string;
     setTenure(selectedTenure);
-  
+
     setQuestions((prevQuestions) =>
       prevQuestions?.map((question) =>
-        question.id === 3 ? { ...question, hidden: selectedTenure != "Leasehold" } : question
+        question.id === 3 ? { ...question, hidden: selectedTenure != "leasehold" } : question
       )
     );
   };
-
-  useEffect(() => {
-    setQuestions(remortgageQuestions);
-    setAddresses(AddressesData);
-    console.log(addresses);
-    setTenure(tenureOptions[0]);
-  
-    setQuestions((prevQuestions) =>
-      prevQuestions?.map((question) =>
-        question.id === 3 ? { ...question, hidden: tenureOptions[0] != "Leasehold" } : question
-      )
-    );
-  }, []);
 
   const navigate = useNavigate();
 
@@ -76,26 +64,56 @@ const PurchaseDetails = () => {
     if (!displayValue) newErrors.amountBeingBorrowed = "Amount being borrowed is required";
     if (numberOfOwners <= 0) newErrors.numberOfOwners = "Number of owners must be greater than 0";
     if (!tenure) newErrors.tenure = "Tenure is required";
-    // if (!remortgageAddress) newErrors.remortgageAddress = "Remortgage address is required";
+    if (!purchaseAddress) newErrors.remortgageAddress = "Remortgage address is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (validateForm()) {
-      const formData = { amountBeingBorrowed: numberValue, numberOfOwners, tenure };
-      const questionResponses = questions?.reduce<Record<string, boolean>>((acc, question) => {
-        acc[question.label] = question.checked;
-        return acc;
-      }, {});
-      console.log("Form Data:", formData);
-      console.log("Question Responses:", questionResponses);
+    const isAddressValid = addressLookupRef.current?.validateManualAddress();
+    if (validateForm() && isAddressValid) {
+      const purchaseDetails: PurchaseDetails = {
+        price: +numberValue,
+        people: numberOfOwners,
+        tenure: tenure === "freehold" ? "freehold" : "leasehold",
+        address: purchaseAddress ?? {},
+        questions: questions ?? [],
+      };
+      dispatch(setPurchaseDetails(purchaseDetails));
       dispatch(updateActiveStep(1));
     } else {
       console.log("Form has errors");
     }
   };
+
+  const savedPurchaseDetails: PurchaseDetails | null = useSelector(getPurchaseDetails) as PurchaseDetails | null;
+
+  const initializeState = () => {
+    if (savedPurchaseDetails?.price) {
+      setNumberValue(savedPurchaseDetails.price.toString());
+      setDisplayValue(formatCurrency(savedPurchaseDetails.price.toString()));
+      setNumberOfOwners(savedPurchaseDetails.people);
+      setTenure(savedPurchaseDetails.tenure);
+      setPurchaseAddress(savedPurchaseDetails.address);
+      setQuestions(savedPurchaseDetails.questions);
+    } else {
+      setQuestions(remortgageQuestions);
+      setAddresses(AddressesData);
+      setTenure(tenureOptions[0]);
+      setQuestions((prevQuestions) =>
+        prevQuestions?.map((question) =>
+          question.id === 3 ? { ...question, hidden: tenureOptions[0] != "leasehold" } : question
+        )
+      );
+    }
+  };
+
+  useEffect(() => {
+    initializeState();
+  }, [savedPurchaseDetails]);
+
+  useLayoutEffect(() => {console.log(addresses) },[])
 
   return (
     <Box>
@@ -152,8 +170,7 @@ const PurchaseDetails = () => {
           </Grid>
           <Grid item xs={6}>
             <Box sx={{ ml: 1 }}>
-              {/* <Typography>Remortgage address</Typography> */}
-              {/* <AddressLookup/> */}
+              <AddressLookup ref={addressLookupRef} address={purchaseAddress} setAddress={setPurchaseAddress} validateAddress={() => true} />
             </Box>
           </Grid>
         </Grid>
@@ -177,4 +194,4 @@ const PurchaseDetails = () => {
   );
 };
 
-export default PurchaseDetails;
+export default PurchaseDetailsComponent;
