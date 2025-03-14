@@ -85,9 +85,9 @@ const About = () => {
       <form onSubmit={onSubmit}>
         {/* render client fields */}
         {clients?.map((client, index) => (
-          <div key={index}>
+          <>
             {index !== 0 && <hr />}
-            <Grid2 container spacing={2} sx={{ my: 2 }}>
+            <Grid2 key={index} container spacing={2} sx={{ my: 2 }}>
               <Grid2 size={6}>
                 {index !== 0 && <Typography variant="h6">{`Client ${index + 1}`}</Typography>}
               </Grid2>
@@ -153,7 +153,7 @@ const About = () => {
                 </Grid2>
               )}
             </Grid2>
-          </div>
+          </>
         ))}
 
         <Button

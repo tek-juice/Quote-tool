@@ -161,6 +161,72 @@ export const estimatesData: Estimate[] = [
     },
 
 ]
+export const sellingEstimatesData: Estimate[] = [
+    {
+        amount: 550,
+        fee_type: "legal",
+        label: "(Residential Transaction)s",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "additional",
+        label: "Bank Transfer Fee (Per Outgoing Transaction)",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "additional",
+        label: "Online Tracking System",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "additional",
+        label: "Excess Disbursement",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "additional",
+        label: "AML ID CHECK",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "additional",
+        label: "Dealing with BSA",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "disbursements",
+        label: "HM Land Registry Office Copies",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "disbursements",
+        label: "Postage Fee",
+        total: 660,
+        vat: 110
+    },
+    {
+        amount: 550,
+        fee_type: "disbursements",
+        label: "Bankruptcy Search",
+        total: 660,
+        vat: 110
+    },
+
+]
 
 export const remortgageQuestions: BooleanQuestion[] = [
     {

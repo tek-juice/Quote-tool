@@ -6,8 +6,8 @@ import About from "../components/selling/About"
 import CostEstimates from "../components/selling/CostEstimates"
 import Confirmation from "../components/selling/Confirmation"
 import Final from "../components/selling/Final"
-import CancelEstimation from "../components/selling/CancelEstimation"
-import SendEmail from "../components/selling/SendEmail"
+import CancelEstimation from "../components/common/CancelEstimation"
+import SendEmail from "../components/common/SendEmail"
 import { useLayoutEffect } from "react"
 
 const Index = () => {

@@ -3,7 +3,7 @@ import { Client, PurchaseDetails, State, Store } from "../types";
 
 // Initial state
 const initialState: State = {
-  activeStep: 0,
+  activeStep: 2,
   steps: [],
   purchaseDetails: {},
   clients: []
